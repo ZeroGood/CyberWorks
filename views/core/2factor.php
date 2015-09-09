@@ -1,15 +1,14 @@
 <?php
+$twoFactor = new twoFactor($query);
 if (isset($_GET['backup']) && $_SESSION['2factor'] == 2) {
-    $backup = $gauth->createSecret(8);
-    $sql = "UPDATE `users` SET `backup`='" . $backup . "' WHERE `user_id` = '" . $_SESSION['user_id'] . "';";
-    $db_connection->query($sql);
-    message($lang['2factorBackup1'] . ' <b>' . $backup . '</b> ' . $lang['2factorBackup2']);
+    $code = $twoFactor->getBackupCode();
+    message($lang['2factorBackup1'] . ' <b>' . $code . '</b> ' . $lang['2factorBackup2']);
 } elseif (isset($_GET['revokeBackup']) && $_SESSION['2factor'] == 2) {
     $sql = "UPDATE `users` SET `backup`=NULL WHERE `user_id` = '" . $_SESSION['user_id'] . "';";
     $db_connection->query($sql);
     message($lang['2factorBackupRevoke']);
 } elseif (isset($_GET['revoke']) && $_SESSION['2factor'] == 2) {
-    $sql = "UPDATE `users` SET `backup`=NULL,`twoFactor`=NULL,`token`=NULL WHERE `user_id` = '" . $_SESSION['user_id'] . "';";
+    $sql = "UPDATE `users` SET `backup`=NULL,`twoFactor`=NULL,`token`=NULL WHERE `user_id` = '" . (int) $_SESSION['user_id'] . "';";
     $db_connection->query($sql);
     unset($_COOKIE['token']);
     setcookie('token', '', time() - 3600, '/');
@@ -38,19 +37,19 @@ if (isset($_GET['backup']) && $_SESSION['2factor'] == 2) {
     message($lang['2factorTokenRevoke']);
 } elseif (isset($_POST['testCode']) && isset($_POST['secret']) && $_SESSION['2factor'] == 0) {
     if ($gauth->verifyCode($_POST['secret'], $_POST['testCode'])) {
-    $sql = "UPDATE `users` SET `twoFactor`='" . $_POST['secret'] . "' WHERE `user_id` = '" . $_SESSION['user_id'] . "';";
-    $db_connection->query($sql);
-    $_SESSION['2factor'] = 2;
-    message($lang['2factor1']);
+        $sql = "UPDATE `users` SET `twoFactor`='" . $_POST['secret'] . "' WHERE `user_id` = '" . $_SESSION['user_id'] . "';";
+        $db_connection->query($sql);
+        $_SESSION['2factor'] = 2;
+        message($lang['2factor1']);
     } else message($lang['2factor2']);
 } ?>
-<div class="row">
-    <div class="col-lg-8">
-        <h1 class="page-header">
-            <?php echo $lang['2factor']; ?>
-        </h1>
+    <div class="row">
+        <div class="col-lg-8">
+            <h1 class="page-header">
+                <?php echo $lang['2factor']; ?>
+            </h1>
+        </div>
     </div>
-</div>
 <?php
 if ($_SESSION['2factor'] == 1 || $_SESSION['2factor'] == 5 || $_SESSION['2factor'] == 3) {
     if ($_SESSION['2factor'] == 3) message($lang['2factorError2']);
