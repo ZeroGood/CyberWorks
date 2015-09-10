@@ -173,8 +173,8 @@ php_value file_get_contents 1';
       `twoFactor` VARCHAR(25) NULL,
       `backup` VARCHAR(255) NULL,
       `token` VARCHAR(64) NULL
-    ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='user data';") or die('1: ' . mysqli_error($link));
-
+    ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;") or die('1: ' . mysqli_error($link));
+//todo: add this one
         if (isset($_POST['user_pid'])) {
             $user_pid = $_POST['user_pid'];
             mysqli_query($link, "INSERT INTO `users` (`user_id`, `user_name`, `user_password_hash`, `user_email`, `playerid`, `user_level`, `permissions`,

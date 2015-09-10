@@ -1,9 +1,23 @@
 <?php
 
-require_once('../classes/query.php');
-
 class queryTest extends PHPUnit_Framework_TestCase
 {
+    public function setUp() {
+        require_once('classes/query.php');
+        if (file_exists('devstuff/envConfig.php')) {
+            $settings = include('devstuff/envConfig.php');
+            $this->host = $settings['host'];
+            $this->user = $settings['user'];
+            $this->password = $settings['password'];
+            $this->dbname = $settings['name'];
+        } else {
+            $this->host = 'localhost';
+            $this->user = 'travis';
+            $this->password = '';
+            $this->dbname = 'test_db';
+        }
+    }
+
     protected $testUser = 1;
 
     public function testConnection()
@@ -29,7 +43,12 @@ class queryTest extends PHPUnit_Framework_TestCase
         $query->twoFactorRevoke($this->testUser, 'backup');
         $this->assertNotEquals($query->user($this->testUser)['backup'], $code);
         $query->twoFactorRevoke($this->testUser);
-        // todo: test for all null
+        $user = $query->user($this->testUser);
+
+        $this->assertNull($user['backup']);
+        $this->assertNull($user['twoFactor']);
+        $this->assertNull($user['token']);
+
         $query->twoFactorNew($this->testUser, $original['token'], $original['twoFactor'], $original['backup']);
 
         $user = $query->user($this->testUser);
@@ -134,6 +153,37 @@ class queryTest extends PHPUnit_Framework_TestCase
 
         $this->assertTrue($query->deleteDB($dbID));
         $this->assertFalse($query->DB($dbID));
+    }
+
+    public function testServers () {
+        $query = new query();
+        $rand = rand();
+        $server = $query->newServer('Test Server #'.$rand, 1, 'life');
+        $this->assertTrue(ctype_digit($server));
+        $servers = $query->servers($server);
+        $this->assertEquals($servers['sid'], $server);
+        $this->assertEquals($servers['name'], 'Test Server #'.$rand);
+        $this->assertEquals($servers['dbid'], 1);
+        $this->assertEquals($servers['type'], 'life');
+        $this->assertEquals($servers['use_sq'], 0);
+        $this->assertNull($servers['sq_port']);
+        $this->assertNull($servers['sq_ip']);
+        $this->assertNull($servers['rcon_pass']);
+        $this->assertTrue($query->deleteServer($server));
+
+        $rand = rand();
+        $server = $query->newServer('Test Server #'.$rand, 1, 'life', '3202', '127.0.0.1', 'test');
+        $this->assertTrue(ctype_digit($server));
+        $servers = $query->servers($server);
+        $this->assertEquals($servers['sid'], $server);
+        $this->assertEquals($servers['name'], 'Test Server #'.$rand);
+        $this->assertEquals($servers['dbid'], 1);
+        $this->assertEquals($servers['type'], 'life');
+        $this->assertEquals($servers['use_sq'], 0);
+        $this->assertNull($servers['sq_port']);
+        $this->assertNull($servers['sq_ip']);
+        $this->assertNull($servers['rcon_pass']);
+        $this->assertTrue($query->deleteServer($server));
     }
 
 }

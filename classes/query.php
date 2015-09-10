@@ -5,14 +5,10 @@
  */
 class query
 {
-    /*public function __construct() {
-        require_once '../gfunctions.php';
-        $settings = require_once '../config/settings.php';
-        $this->host = decrypt($settings['db']['host']);
-        $this->user = decrypt($settings['db']['user']);
-        $this->password = decrypt($settings['db']['pass']);
-        $this->dbname = decrypt($settings['db']['name']);
-    }*/
+    public $dbname = 'cyberby1_testdb';
+    public $host = '191.101.48.14';
+    public $user = 'cyberby1_testdb';
+    public $password = 'q3S5[6nQGt}1';
 
     public function player($uid = null)
     {
@@ -141,6 +137,46 @@ class query
         } catch (Exception $e) {
             return $e;
         }
+    }
+
+    public function newServer($name, $DB, $type, $sqPort = null, $sqIP = null, $rconPass = null)
+    {
+        try {
+            $dbh = new PDO("mysql:dbname=$this->dbname;host=$this->host", $this->user, $this->password);
+            if (isset($sqPort) && isset($sqIP) && isset($rconPass)) {
+                $sql = $dbh->prepare("INSERT INTO servers (name, dbid, type, use_sq, sq_port, sq_ip, rcon_pass) VALUES (:name, :db, :type, '1', :sqPort, :sqIP, :rconPass);");
+                $sql->bindValue(':name', $name, PDO::PARAM_STR);
+                $sql->bindValue(':db', $DB, PDO::PARAM_INT);
+                $sql->bindValue(':type', $type, PDO::PARAM_STR);
+                $sql->bindValue(':sqPort', $sqPort, PDO::PARAM_STR);
+                $sql->bindValue(':sqIP', $sqIP, PDO::PARAM_STR);
+                $sql->bindValue(':rconPass', $rconPass, PDO::PARAM_STR);
+                $sql->execute();
+            } else {
+                $sql = $dbh->prepare("INSERT INTO servers (name, dbid, type, use_sq) VALUES (:name, :db, :type, '0');");
+                $sql->bindValue(':name', $serverName, PDO::PARAM_STR);
+                $sql->bindValue(':db', $serverDB, PDO::PARAM_INT);
+                $sql->bindValue(':type', $serverSQ, PDO::PARAM_STR);
+                $sql->execute();
+            }
+            return $dbh->lastInsertId();
+        } catch (Exception $e) {
+            return $e;
+        }
+    }
+
+    public function deleteServer($sID)
+    {
+        try {
+            $dbh = new PDO("mysql:dbname=$this->dbname;host=$this->host", $this->user, $this->password);
+
+            $sql = $dbh->prepare("DELETE FROM servers WHERE sid = :sID");
+            $sql->bindValue(':sID', $sID, PDO::PARAM_INT);
+            $sql->execute();
+        } catch (Exception $e) {
+            return $e;
+        }
+        return true;
     }
 
     public function DB($dbID = null)
