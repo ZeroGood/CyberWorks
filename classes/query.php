@@ -12,18 +12,21 @@ class query
 
     public function player($uid = null)
     {
-        $dbh = new PDO("mysql:dbname=$this->dbname;host=$this->host", $this->user, $this->password);
-        if (isset($_GET['uid'])) {
-            $sql = $dbh->prepare("SELECT * FROM players WHERE uid = :uid;");
-            $sql->bindParam(':uid', $uid, PDO::PARAM_INT);
-            $sql->execute();
-            $json['result'] = $sql->fetch(PDO::FETCH_ASSOC);
-        } else {
-            $sql = $dbh->prepare("SELECT * FROM players");
-            $sql->execute();
-            $json['result'] = $sql->fetchAll(PDO::FETCH_ASSOC);
+        try {
+            $dbh = new PDO("mysql:dbname=$this->dbname;host=$this->host", $this->user, $this->password);
+            if (isset($uid)) {
+                $sql = $dbh->prepare("SELECT * FROM players WHERE uid = :uid;");
+                $sql->bindParam(':uid', $uid, PDO::PARAM_INT);
+                $sql->execute();
+                return $sql->fetch(PDO::FETCH_ASSOC);
+            } else {
+                $sql = $dbh->prepare("SELECT * FROM players");
+                $sql->execute();
+                return $sql->fetchAll(PDO::FETCH_ASSOC);
+            }
+        } catch (Exception $e) {
+            return $e;
         }
-        $dbh = null;
     }
 
     public function playerEdit($uid, $type, $level = null)
@@ -124,7 +127,7 @@ class query
     {
         try {
             $dbh = new PDO("mysql:dbname=$this->dbname;host=$this->host", $this->user, $this->password);
-            if (isset($hID)) {
+            if (isset($sID)) {
                 $sql = $dbh->prepare("SELECT * FROM servers WHERE sid = :sID");
                 $sql->bindParam(':sID', $sID, PDO::PARAM_INT);
                 $sql->execute();
@@ -154,9 +157,9 @@ class query
                 $sql->execute();
             } else {
                 $sql = $dbh->prepare("INSERT INTO servers (name, dbid, type, use_sq) VALUES (:name, :db, :type, '0');");
-                $sql->bindValue(':name', $serverName, PDO::PARAM_STR);
-                $sql->bindValue(':db', $serverDB, PDO::PARAM_INT);
-                $sql->bindValue(':type', $serverSQ, PDO::PARAM_STR);
+                $sql->bindValue(':name', $name, PDO::PARAM_STR);
+                $sql->bindValue(':db', $DB, PDO::PARAM_INT);
+                $sql->bindValue(':type', $type, PDO::PARAM_STR);
                 $sql->execute();
             }
             return $dbh->lastInsertId();

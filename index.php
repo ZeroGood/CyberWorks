@@ -22,7 +22,7 @@ if (version_compare(PHP_VERSION, '5.3.7', '<')) {
 if (file_exists('config/settings.php')) {
     $settings = require_once 'config/settings.php';
     require_once 'classes/query.php';
-    $query = new query();
+    $dao = new query();
 
     require_once("classes/login.php");
     $login = new Login();
@@ -93,9 +93,12 @@ if (file_exists('config/settings.php')) {
     if (!$db_connection->connect_errno) {
         if ($login->isUserLoggedIn() == true) {
 
-            if ($_SESSION['multiDB'] && isset($_POST['dbid']) && isset($_POST['type'])) {
-                $_SESSION['server_type'] = $_POST['type'];
-                $_SESSION['dbid'] = $_POST['dbid'];
+            if ($_SESSION['multiDB'] && isset($_GET['id'])) {
+                $server = $dao->servers($_GET['id']);
+                if (isset($server['dbid']) && isset($server['type'])) {
+                    $_SESSION['server_type'] = $server['type'];
+                    $_SESSION['dbid'] = $server['dbid'];
+                }
             }
 
             if (!isset($_SESSION['formtoken'])) {

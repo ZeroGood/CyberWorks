@@ -2,7 +2,7 @@
 
 class setupTest extends PHPUnit_Framework_TestCase
 {
-    public function setUp()
+    protected function setUp()
     {
         require_once('classes/setup.php');
         if (file_exists('devstuff/envConfig.php')) {

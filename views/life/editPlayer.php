@@ -200,7 +200,7 @@ if ($result->num_rows > 0) {
                 }
 
                 if ($_SESSION['permissions']['edit']['player']) {
-                    echo '<a data-toggle="modal" href="#edit_player" class="btn btn-primary btn-xs" style="float: right;">';
+                    echo '<a data-toggle="modal" href="#edit_player" class="btn btn-primary btn-xs" style="float: right;" id="editPlayer">';
                     echo '<i class="fa fa-pencil"></i>';
                     echo '</a>';
                 }
@@ -716,7 +716,7 @@ if ($result->num_rows > 0) {
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-default" data-dismiss="modal" type="reset">Close</button>
-                        <button class="btn btn-primary" type="submit"><?php echo $lang['subChange']; ?></button>
+                        <button class="btn btn-primary" type="submit" id="Edit Player Submit"><?php echo $lang['subChange']; ?></button>
                     </div>
                 </form>
                 <script>
@@ -746,20 +746,10 @@ if ($result->num_rows > 0) {
                             }
                         }
                     });
-                    <?php } if ($_SESSION['permissions']['view']['steam'] && $settings['vacTest']) { ?>
-                    $.ajax({
-                        url: "http://bans.itsyuka.tk/api/bans/player/id/6e96f18ddaaa2dadcc32482b2d6a0593/format/json/key/<?php echo $settings['communityBansAPI'] ?>",
-                        dataType: 'json',
-                        success: function(data) {
-                            if(data['level'] == '2') {
-                                $('#communityBanned').html('<h4><span class="label label-danger" style="margin-left:3px; line-height:2;">Community Banned</span></h4>');
-                            }
-                        }
-                    });
-                    <?php }?>
+                    <?php } ?>
                 });
                 </script>
-            <?php } else "<h1>" . errorMessage(5, $lang) . "/<h1>"; ?>
+            <?php } else echo "<h1>" . errorMessage(5, $lang) . "/<h1>"; ?>
         </div>
     </div>
 </div>

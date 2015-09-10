@@ -121,7 +121,7 @@ if (isset($_GET['token']) && isset($_GET['uID']) && $settings['passreset']) {
             } ?>
 
             <div id="showtime"></div>
-            <h2><a data-toggle="modal" href="#login"><i class="fa fa-lock"></i></a></h2>
+            <h2><a data-toggle="modal" href="#login"><i id="loginLock" class="fa fa-lock"></i></a></h2>
 
             <h3>LOGIN</h3>
             <?php if (isset($settings['steamAPI']) && $settings['steamlogin'] == 'true' && isset($settings['steamdomain'])) {

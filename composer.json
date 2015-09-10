@@ -1,0 +1,15 @@
+{
+  "name": "Cyberbyte/Cyberworks",
+  "description": "description_text",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "author's name",
+      "email": "email@example.com"
+    }
+  ],
+  "require-dev": {
+    "phpunit/phpunit-selenium": "^1.4"
+  }
+}

@@ -1,7 +1,7 @@
 <?php
-$twoFactor = new twoFactor($query);
+//$twoFactor = new twoFactor($query);
 if (isset($_GET['backup']) && $_SESSION['2factor'] == 2) {
-    $code = $twoFactor->getBackupCode();
+    //$code = $twoFactor->getBackupCode();
     message($lang['2factorBackup1'] . ' <b>' . $code . '</b> ' . $lang['2factorBackup2']);
 } elseif (isset($_GET['revokeBackup']) && $_SESSION['2factor'] == 2) {
     $sql = "UPDATE `users` SET `backup`=NULL WHERE `user_id` = '" . $_SESSION['user_id'] . "';";

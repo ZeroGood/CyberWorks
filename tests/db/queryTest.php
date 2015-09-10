@@ -2,7 +2,7 @@
 
 class queryTest extends PHPUnit_Framework_TestCase
 {
-    public function setUp() {
+    protected function setUp() {
         require_once('classes/query.php');
         if (file_exists('devstuff/envConfig.php')) {
             $settings = include('devstuff/envConfig.php');
@@ -171,6 +171,11 @@ class queryTest extends PHPUnit_Framework_TestCase
         $this->assertNull($servers['rcon_pass']);
         $this->assertTrue($query->deleteServer($server));
 
+        $servers = $query->servers($server);
+        $this->assertNull($servers['sid']);
+        $this->assertNull($servers['name']);
+        $this->assertNull($servers['type']);
+
         $rand = rand();
         $server = $query->newServer('Test Server #'.$rand, 1, 'life', '3202', '127.0.0.1', 'test');
         $this->assertTrue(ctype_digit($server));
@@ -179,11 +184,16 @@ class queryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($servers['name'], 'Test Server #'.$rand);
         $this->assertEquals($servers['dbid'], 1);
         $this->assertEquals($servers['type'], 'life');
-        $this->assertEquals($servers['use_sq'], 0);
-        $this->assertNull($servers['sq_port']);
-        $this->assertNull($servers['sq_ip']);
-        $this->assertNull($servers['rcon_pass']);
+        $this->assertEquals($servers['use_sq'], 1);
+        $this->assertEquals($servers['sq_port'], '3202');
+        $this->assertEquals($servers['sq_ip'], '127.0.0.1');
+        $this->assertEquals($servers['rcon_pass'], 'test');
         $this->assertTrue($query->deleteServer($server));
+
+        $servers = $query->servers($server);
+        $this->assertNull($servers['sid']);
+        $this->assertNull($servers['name']);
+        $this->assertNull($servers['type']);
     }
 
 }

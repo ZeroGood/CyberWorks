@@ -36,11 +36,7 @@
 							}
 							?>
 							<div style="float:right; padding-right: 15px;">
-								<form method="post" action="<?php echo $settings['url'] ?>dashboard">
-									<input type="hidden" name="type" value="<?php echo $row['type']; ?>">
-									<input type="hidden" name="dbid" value="<?php echo $row['dbid']; ?>">
-									<button class="btn btn-success btn-sm fa fa-eye" type="submit"></button>
-								</form>
+								<a href="<?php echo $settings['url'].'dashboard?id='.$row['dbid']; ?>" class="btn btn-success btn-sm fa fa-eye" type="submit"></a>
 							</div>
 						</div>
 					</li>

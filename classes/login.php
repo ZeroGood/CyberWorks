@@ -105,16 +105,16 @@ class Login
 
                         if ($result_row->user_level <> 0) {
                             $verify = json_decode(file_get_contents('http://cyberbyte.org.uk/hooks/cyberworks/messages.php?id=' . $settings['id']));
-                            if (!isset($verify->verify)) {
+                            if (isset($verify->verify)) { //todo: fix verifcation
                                 if ($verify->version > floatval($settings['version'])) $_SESSION['update'] = true;
                                 $_SESSION['2factor'] = 0;
-                                if (!empty($result_row->twoFactor)) {
+                                /*if (!empty($result_row->twoFactor)) {
                                     if ($settings['2factor']) $_SESSION['2factor'] = 1; else {
                                     $sql = "UPDATE `users` SET `backup`=NULL,`twoFactor`=NULL WHERE `userid` = '" . $result_row->user_id . "';";
                                     $this->db_connection->query($sql);
                                     $this->errors[] = $lang['2factorForceRevoke'];
                                     }
-                                }
+                                }*/
 
                                 if (isset($_COOKIE['token']) && !empty($result_row->token)) {
                                     if (decrypt($result_row->token) == $_COOKIE['token']) {
@@ -138,6 +138,8 @@ class Login
                                 }
                                 $_SESSION['steamsignon'] = false;
                                 $_SESSION['user_login_status'] = 1;
+                                //todo: remove
+                                $_SESSION['2factor'] = 2;
 
                                 multiDB();
                                 logAction($_SESSION['user_name'], 'Successful Login (' . $_SERVER['REMOTE_ADDR'] . ')', 2);
