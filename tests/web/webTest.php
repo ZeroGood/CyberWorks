@@ -27,7 +27,7 @@ class webTest extends PHPUnit_Extensions_Selenium2TestCase
         $this->assertEquals($this->url.'index',$action);
 
         $this->byName('user_name')->value('SCollins');
-        $this->byName('user_password')->value('Pancakeme19');
+        $this->byName('user_password')->value('test');
         $this->byName('login')->click();
         sleep(1);
 

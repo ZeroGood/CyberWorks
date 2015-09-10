@@ -5,8 +5,10 @@
   "license": "proprietary",
   "authors": [
     {
-      "name": "author's name",
-      "email": "email@example.com"
+      "name": "Sam Collins"
+    },
+    {
+      "name": "Cammy"
     }
   ],
   "require-dev": {

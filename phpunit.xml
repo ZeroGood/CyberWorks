@@ -2,10 +2,9 @@
 <phpunit backupGlobals="false"
          backupStaticAttributes="false">
     <testsuites>
-        <!--
         <testsuite name="Database Tests">
             <directory suffix=".php">tests/db/</directory>
-        </testsuite>-->
+        </testsuite>
         <testsuite name="Web Tests">
             <directory suffix=".php">tests/web/</directory>
         </testsuite>
