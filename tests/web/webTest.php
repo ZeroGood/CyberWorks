@@ -110,4 +110,28 @@ class webTest extends PHPUnit_Extensions_Selenium2TestCase
         $this->assertEquals(2, $players['cash']);
         $this->assertEquals(2, $players['bankacc']);
     }
+
+    public function testPages() {
+        $this->login();
+        $this->url($this->url.'players');
+        $this->byId('Page 1');
+        $this->byId('Page 2');
+        $this->byId('Page 3');
+        $this->byId('Page 4');
+        $this->byId('Page 5');
+
+        $this->url($this->url.'players?page=2');
+        $this->byId('Page 1');
+        $this->byId('Page 2');
+        $this->byId('Page 3');
+        $this->byId('Page 4');
+        $this->byId('Page 5');
+
+        $this->url($this->url.'players?page=4');
+        $this->byId('Page 2');
+        $this->byId('Page 3');
+        $this->byId('Page 4');
+        $this->byId('Page 5');
+        $this->byId('Page 6');
+    }
 }

@@ -2,7 +2,8 @@
 
 class queryTest extends PHPUnit_Framework_TestCase
 {
-    protected function setUp() {
+    protected function setUp()
+    {
         require_once('classes/query.php');
         if (file_exists('devstuff/envConfig.php')) {
             $settings = include('devstuff/envConfig.php');
@@ -83,14 +84,14 @@ class queryTest extends PHPUnit_Framework_TestCase
     public function testHouses()
     {
         $query = new query();
-        $houses = $query->houses(24);
+        $house = $query->houses(24);
 
-        $this->assertArrayHasKey('id', $houses);
-        $this->assertArrayHasKey('pid', $houses);
-        $this->assertArrayHasKey('pos', $houses);
-        $this->assertArrayHasKey('inventory', $houses);
-        $this->assertArrayHasKey('containers', $houses);
-        $this->assertArrayHasKey('owned', $houses);
+        $this->assertArrayHasKey('id', $house);
+        $this->assertArrayHasKey('pid', $house);
+        $this->assertArrayHasKey('pos', $house);
+        $this->assertArrayHasKey('inventory', $house);
+        $this->assertArrayHasKey('containers', $house);
+        $this->assertArrayHasKey('owned', $house);
 
         $houses = $query->houses();
 
@@ -101,6 +102,18 @@ class queryTest extends PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('inventory', $houses[0]);
         $this->assertArrayHasKey('containers', $houses[0]);
         $this->assertArrayHasKey('owned', $houses[0]);
+
+        $query->editHouse(24, '929282828', 'test', 'tested', 'yep', 0);
+        $houses = $query->houses(24);
+
+        $this->assertEquals(24, $houses['id']);
+        $this->assertEquals(929282828, $houses['pid']);
+        $this->assertEquals('test', $houses['pos']);
+        $this->assertEquals('tested', $houses['inventory']);
+        $this->assertEquals('yep', $houses['containers']);
+        $this->assertEquals(0, $houses['owned']);
+
+        $query->editHouse($house['id'], $house['pid'], $house['pos'], $house['inventory'], $house['containers'], $house['owned']);
     }
 
     public function testGangs()
@@ -133,7 +146,6 @@ class queryTest extends PHPUnit_Framework_TestCase
         $query = new query();
         $dbID = $query->newDB('life', '127.0.0.1', 'test', 'database', 'test');
         $this->assertTrue(ctype_digit($dbID));
-
         $db = $query->DB($dbID);
 
         $this->assertEquals($db['type'], 'life');
@@ -155,14 +167,16 @@ class queryTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($query->DB($dbID));
     }
 
-    public function testServers () {
+    public function testServers()
+    {
         $query = new query();
         $rand = rand();
-        $server = $query->newServer('Test Server #'.$rand, 1, 'life');
+        $server = $query->newServer('Test Server #' . $rand, 1, 'life');
         $this->assertTrue(ctype_digit($server));
+
         $servers = $query->servers($server);
         $this->assertEquals($servers['sid'], $server);
-        $this->assertEquals($servers['name'], 'Test Server #'.$rand);
+        $this->assertEquals($servers['name'], 'Test Server #' . $rand);
         $this->assertEquals($servers['dbid'], 1);
         $this->assertEquals($servers['type'], 'life');
         $this->assertEquals($servers['use_sq'], 0);
@@ -177,11 +191,11 @@ class queryTest extends PHPUnit_Framework_TestCase
         $this->assertNull($servers['type']);
 
         $rand = rand();
-        $server = $query->newServer('Test Server #'.$rand, 1, 'life', '3202', '127.0.0.1', 'test');
+        $server = $query->newServer('Test Server #' . $rand, 1, 'life', '3202', '127.0.0.1', 'test');
         $this->assertTrue(ctype_digit($server));
         $servers = $query->servers($server);
         $this->assertEquals($servers['sid'], $server);
-        $this->assertEquals($servers['name'], 'Test Server #'.$rand);
+        $this->assertEquals($servers['name'], 'Test Server #' . $rand);
         $this->assertEquals($servers['dbid'], 1);
         $this->assertEquals($servers['type'], 'life');
         $this->assertEquals($servers['use_sq'], 1);
@@ -194,6 +208,15 @@ class queryTest extends PHPUnit_Framework_TestCase
         $this->assertNull($servers['sid']);
         $this->assertNull($servers['name']);
         $this->assertNull($servers['type']);
+    }
+
+    public function testItems()
+    {
+        $query = new query();
+
+        $this->assertTrue($query->items($this->testUser,5));
+        $this->assertTrue($query->items($this->testUser,50));
+        $this->assertTrue($query->items($this->testUser,15));
     }
 
 }

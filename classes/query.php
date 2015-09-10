@@ -104,6 +104,25 @@ class query
         }
     }
 
+    public function editHouse($hID, $owner, $pos, $inv, $containers, $owned)
+    {
+        try {
+            $dbh = new PDO("mysql:dbname=$this->dbname;host=$this->host", $this->user, $this->password);
+
+            $sql = $dbh->prepare("UPDATE houses SET pid = :owner, pos = :position, inventory = :inv, containers = :containers, owned = :owned WHERE id = :hID;");
+            $sql->bindValue(':hID', $hID, PDO::PARAM_INT);
+            $sql->bindValue(':owner', $owner, PDO::PARAM_STR);
+            $sql->bindValue(':position', $pos, PDO::PARAM_STR);
+            $sql->bindValue(':inv', $inv, PDO::PARAM_STR);
+            $sql->bindValue(':containers', $containers, PDO::PARAM_STR);
+            $sql->bindValue(':owned', $owned, PDO::PARAM_INT);
+            $sql->execute();
+        } catch (Exception $e) {
+            return $e;
+        }
+        return true;
+    }
+
     public function houses($hID = null)
     {
         try {
@@ -118,6 +137,19 @@ class query
                 $sql->execute();
                 return $sql->fetchAll(PDO::FETCH_ASSOC);
             }
+        } catch (Exception $e) {
+            return $e;
+        }
+    }
+
+    public function deleteHouse($hID)
+    {
+        try {
+            $dbh = new PDO("mysql:dbname=$this->dbname;host=$this->host", $this->user, $this->password);
+            $sql = $dbh->prepare("DELETE FROM houses WHERE id = :hID");
+            $sql->bindParam(':hID', $hID, PDO::PARAM_INT);
+            $sql->execute();
+            return true;
         } catch (Exception $e) {
             return $e;
         }
@@ -356,5 +388,21 @@ class query
         }
 
         return $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function items($uid,$items)
+    {
+        try {
+            $dbh = new PDO("mysql:dbname=$this->dbname;host=$this->host", $this->user, $this->password);
+
+            $sql = $dbh->prepare("UPDATE users SET items = :items WHERE user_id = :uid;");
+            $sql->bindValue(':items', $items, PDO::PARAM_INT);
+            $sql->bindValue(':uid', $uid, PDO::PARAM_INT);
+            $sql->execute();
+
+            return true;
+        } catch (Exception $e) {
+            return $e;
+        }
     }
 }

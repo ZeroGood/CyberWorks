@@ -23,6 +23,7 @@ if (file_exists('config/settings.php')) {
     $settings = require_once 'config/settings.php';
     require_once 'classes/query.php';
     $dao = new query();
+    $helper = new helper();
 
     require_once("classes/login.php");
     $login = new Login();
@@ -65,6 +66,7 @@ if (file_exists('config/settings.php')) {
     $db_connection = masterConnect();
     $currentPage = $url['path'][$settings['base']];
 
+    //todo: remove and use new helper class
     if (isset($_GET["page"])) {
         $pageNum = clean($_GET["page"], 'int');
         if ($pageNum < 1) {
@@ -108,14 +110,6 @@ if (file_exists('config/settings.php')) {
                 formtoken::generateToken();
             }
             $_SESSION['formtoken'][1] = time();
-
-            if (isset($_GET['items'])) {
-                if (in_array($_GET['items'],$settings['item'])) {
-                    $sql = "UPDATE `users` SET `items` = " . $_GET['items'] . " WHERE `user_id` = '" . $_SESSION['user_id'] . "' ";
-                    $db_connection->query($sql);
-                    $_SESSION['items'] = intval($_GET['items']);
-                }
-            }
 
             $err = errorMessage(4, $lang);
             $page = "views/templates/error.php";

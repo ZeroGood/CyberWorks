@@ -19,11 +19,6 @@ class setupTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function testConnect() {
-        $setup = new setup();
-        $setup->connect($this->host,$this->user, $this->password, $this->dbname);
-    }
-
     public function testBase()
     {
         $setup = new setup();
@@ -52,4 +47,13 @@ class setupTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('http://test.com/index/test/123/break/now/', $url['full']);
         $this->assertEquals('index/test/123/break/now/', $url['base']);
     }
+
+    public function testCreateServer()
+    {
+        $setup = new setup();
+
+        $setup->createServer();
+    }
+
+
 }
