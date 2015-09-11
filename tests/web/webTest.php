@@ -1,5 +1,4 @@
 <?php
-require 'classes/query.php';
 
 class webTest extends PHPUnit_Extensions_Selenium2TestCase
 {
@@ -11,6 +10,7 @@ class webTest extends PHPUnit_Extensions_Selenium2TestCase
 
     protected function setUp()
     {
+        require 'bootstrap.php';
         $this->sethost('localhost');
         //$this->setPort('firefox');
         $this->setBrowser('firefox');
@@ -27,7 +27,7 @@ class webTest extends PHPUnit_Extensions_Selenium2TestCase
         $this->assertEquals($this->url.'index',$action);
 
         $this->byName('user_name')->value('SCollins');
-        $this->byName('user_password')->value('test');
+        $this->byName('user_password')->value('Pancakeme19');
         $this->byName('login')->click();
         sleep(1);
 
@@ -40,11 +40,6 @@ class webTest extends PHPUnit_Extensions_Selenium2TestCase
         $this->url($this->url);
         $this->assertEquals('Cyber Works', $this->title());
     }
-
-    /*public function testLogin()
-    {
-        $this->login();
-    }*/
 
     public function testEditPlayer()
     {
@@ -106,32 +101,44 @@ class webTest extends PHPUnit_Extensions_Selenium2TestCase
 
         $players = $dao->player(12);
         $this->assertEquals($player['cash'], $players['cash']);
-        $this->assertEquals($player['bank'], $players['bank']);
-        $this->assertEquals(2, $players['cash']);
-        $this->assertEquals(2, $players['bankacc']);
+        $this->assertEquals($player['bank'], $players['bankacc']);
     }
 
     public function testPages() {
         $this->login();
-        $this->url($this->url.'players');
+        $this->url($this->url.'vehicles');
         $this->byId('Page 1');
         $this->byId('Page 2');
         $this->byId('Page 3');
         $this->byId('Page 4');
         $this->byId('Page 5');
 
-        $this->url($this->url.'players?page=2');
+        $this->url($this->url.'vehicles?page=2');
         $this->byId('Page 1');
         $this->byId('Page 2');
         $this->byId('Page 3');
         $this->byId('Page 4');
         $this->byId('Page 5');
 
-        $this->url($this->url.'players?page=4');
+        $this->url($this->url.'vehicles?page=4');
         $this->byId('Page 2');
         $this->byId('Page 3');
         $this->byId('Page 4');
         $this->byId('Page 5');
         $this->byId('Page 6');
+
+        $this->url($this->url.'vehicles?page=9');
+        $this->byId('Page 7');
+        $this->byId('Page 8');
+        $this->byId('Page 9');
+        $this->byId('Page 10');
+        $this->byId('Page 11');
+
+        $this->url($this->url.'vehicles?page=1&items=1000');
+        $this->byId('Page 1');
+        $this->byId('Page 2');
+        $this->byId('Page 3');
+        $this->byId('Page 4');
+        $this->byId('Page 5');
     }
 }

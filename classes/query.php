@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class query
  */
@@ -357,6 +356,29 @@ class query
         } catch (Exception $e) {
             return $e;
         }
+    }
+
+    public function newUser($name, $password, $email, $level, $profile, $pid = null, $items = null, $twoFactor = null, $backup = null, $token = null)
+    {
+        try {
+            $helper = new helper();
+            $password = password_hash($password, PASSWORD_DEFAULT);
+            $permissions = $helper->permissions(1);
+
+            $dbh = new PDO("mysql:dbname=$this->dbname;host=$this->host", $this->user, $this->password);
+
+            $sql = $dbh->prepare("INSERT INTO users (user_name, user_password_hash, user_email, playerid, user_level, permissions, user_profile, items, twoFactor, backup, token) VALUES
+            (:name, :password, :email, :pid, :level, :permissions, :profile, :items, :twoFactor, :backup, :token)");
+            $sql->bindValue(':name', $name, PDO::PARAM_STR);
+            $sql->bindValue(':password', $password, PDO::PARAM_STR);
+            $sql->bindValue(':email', $email, PDO::PARAM_STR);
+            $sql->bindValue(':level', $level, PDO::PARAM_INT);
+            $sql->bindValue(':permissions', $permissions, PDO::PARAM_STR);
+            $sql->execute();
+        } catch (Exception $e) {
+            return $e;
+        }
+        return $dbh->lastInsertId();
     }
 
     public function logAdd($user, $action, $level)

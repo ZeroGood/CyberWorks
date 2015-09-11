@@ -1,7 +1,16 @@
 <?php
-
 class helper
 {
+    public function permissions ($level, $array = null) {
+        if (isset($array)) {
+            $permissions = include '../config/permissions.php';
+            return $permissions[$level];
+        } else {
+            $permissions = include '../config/permissions.php';
+            return json_decode($permissions[$level]);
+        }
+    }
+
     //todo: change max system causing delay in page update
     public function pages($total_records, $pageNum = null, $items = null)
     {

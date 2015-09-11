@@ -38,4 +38,10 @@ class helperTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(67,$page['num']);
 
     }
+
+    public function permissions () {
+        $helper = new helper();
+        $perms = $helper->permissions(1, true);
+        $this->assertEquals(1, $perms['']);
+    }
 }

@@ -4,7 +4,7 @@ class setupTest extends PHPUnit_Framework_TestCase
 {
     protected function setUp()
     {
-        require_once('classes/setup.php');
+        require_once('boostrap.php');
         if (file_exists('devstuff/envConfig.php')) {
             $settings = include('devstuff/envConfig.php');
             $this->host = $settings['host'];
@@ -51,9 +51,17 @@ class setupTest extends PHPUnit_Framework_TestCase
     public function testCreateServer()
     {
         $setup = new setup();
+        $query = new query();
+        $rand = rand();
 
-        $setup->createServer();
+        $server = $setup->createServer('Test Server #'.$rand, 1, 'life');
+        $curServer = $query->servers($server);
+        $this->assertEquals('Test Server #'.$rand, $curServer['name']);
+        $this->assertEquals(1, $curServer['dbid']);
+        $this->assertEquals('life', $curServer['type']);
+        $this->assertEquals(0, $curServer['use_sq']);
+        $this->assertNull($curServer['sq_port']);
+        $this->assertNull($curServer['sq_ip']);
+        $this->assertNull($curServer['rcon_pass']);
     }
-
-
 }
