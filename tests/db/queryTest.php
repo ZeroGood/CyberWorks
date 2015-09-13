@@ -4,7 +4,7 @@ class queryTest extends PHPUnit_Framework_TestCase
 {
     protected function setUp()
     {
-        require_once('classes/query.php');
+        require 'bootstrap.php';
         if (file_exists('devstuff/envConfig.php')) {
             $settings = include('devstuff/envConfig.php');
             $this->host = $settings['host'];

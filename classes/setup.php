@@ -2,6 +2,11 @@
 
 class setup
 {
+    public $dbname = 'cyberby1_testdb';
+    public $host = '191.101.48.14';
+    public $user = 'cyberby1_testdb';
+    public $password = 'q3S5[6nQGt}1';
+
     public function sqlHost ($host) {
         if (strpos($host, "http://")) {
             $ip = str_replace('/','',substr($host, 7));
@@ -200,7 +205,8 @@ php_value file_get_contents 1';
 
 
 
-    public function createServer($serverName, $serverDB, $serverSQ, $sqPort = null, $sqIP = null, $rconPass = null) {
+    public function createServer($serverName, $serverDB, $type, $sqPort = null, $sqIP = null, $rconPass = null) {
+        $dbh = new PDO("mysql:dbname=$this->dbname;host=$this->host", $this->user, $this->password);
         $sql = $dbh->prepare("CREATE TABLE IF NOT EXISTS `servers` (
         `sid` INT(2) NOT NULL AUTO_INCREMENT,
         `name` VARCHAR(64) NOT NULL,
@@ -217,13 +223,15 @@ php_value file_get_contents 1';
 
         $query = new query();
         if (isset($sqPort) && isset($sqIP) && isset($rconPass)) {
-            $query->newServer($serverName, $serverDB, $serverSQ, $sqPort, $sqIP, $rconPass);
+            $server = $query->newServer($serverName, $serverDB, $type, $sqPort, $sqIP, $rconPass);
         } else {
-            $query->newServer($serverName, $serverDB, $serverSQ);
+            $server = $query->newServer($serverName, $serverDB, $type);
         }
+        return $server;
     }
 
     public function createDB($type, $host, $user, $pass, $name) {
+        $dbh = new PDO("mysql:dbname=$this->dbname;host=$this->host", $this->user, $this->password);
         $sql = $dbh->prepare("CREATE TABLE IF NOT EXISTS `db` (
         `dbid` INT(11) NOT NULL AUTO_INCREMENT,
         `type` VARCHAR(64) NOT NULL,
@@ -241,6 +249,7 @@ php_value file_get_contents 1';
     }
 
     public function createLog () {
+        $dbh = new PDO("mysql:dbname=$this->dbname;host=$this->host", $this->user, $this->password);
         $sql = $dbh->prepare("CREATE TABLE IF NOT EXISTS `logs` (
         `logid` int(11) NOT NULL AUTO_INCREMENT,
         `date_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -254,6 +263,7 @@ php_value file_get_contents 1';
     }
 
     public function createNotes () {
+        $dbh = new PDO("mysql:dbname=$this->dbname;host=$this->host", $this->user, $this->password);
         $sql = $dbh->prepare("CREATE TABLE IF NOT EXISTS `notes` (
     	  `note_id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing note_id of each user, unique index',
     	  `uid` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
@@ -267,6 +277,7 @@ php_value file_get_contents 1';
     }
 
     public function createUsers($type, $host, $user, $pass, $name) {
+        $dbh = new PDO("mysql:dbname=$this->dbname;host=$this->host", $this->user, $this->password);
         $sql = $dbh->prepare("CREATE TABLE IF NOT EXISTS `users` (
       `user_id` int(11) NOT NULL primary key,
       `user_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,

@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit backupGlobals="false"
          backupStaticAttributes="false">
+    <php>
+        <env name="PHPUNIT" value="true"/>
+    </php>
     <testsuites>
+        <testsuite name="Setup Tests">
+            <directory suffix=".php">tests/setup/</directory>
+        </testsuite>
         <testsuite name="Database Tests">
             <directory suffix=".php">tests/db/</directory>
         </testsuite>
-        <!--
         <testsuite name="Web Tests">
             <directory suffix=".php">tests/web/</directory>
         </testsuite>
-        -->
         <testsuite name="Other Tests">
             <directory suffix=".php">tests/other/</directory>
         </testsuite>

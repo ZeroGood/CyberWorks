@@ -1,56 +1,7 @@
 <?php
-error_reporting(0);
-error_reporting(E_ALL); // Turn on for error messages
-
-session_name('CyberWorks');
-session_set_cookie_params(1209600);
-session_start();
-
-function __autoload($class_name) {
-    include 'classes/' . $class_name . '.php';
-}
-
-require_once("classes/csrf.php");
-ob_start();
-
-if (version_compare(PHP_VERSION, '5.3.7', '<')) {
-    errorMessage(1, $lang);
-} else if (version_compare(PHP_VERSION, '5.5.0', '<')) {
-    require_once("classes/password.php");
-}
+require 'boostrap.php';
 
 if (file_exists('config/settings.php')) {
-    $settings = require_once 'config/settings.php';
-    require_once 'classes/query.php';
-    $dao = new query();
-    $helper = new helper();
-
-    require_once("classes/login.php");
-    $login = new Login();
-
-    require_once("classes/googleAuth.php");
-    //$gauth = new PHPGangsta_GoogleAuthenticator();
-
-    include_once('config/english.php');
-    foreach ($settings['plugins'] as &$plugin) {
-        if (file_exists("plugins/" . $plugin . "/lang/lang.php")) {
-            include("plugins/" . $plugin . "/lang/lang.php");
-        }
-    }
-
-    if (file_exists('views/debug')) {
-        include("views/debug/init.php");
-    } else {
-        $debug = false;
-    }
-
-    if (isset($_GET['searchText'])) {
-        $search = $_GET['searchText'];
-    }
-    require_once("gfunctions.php");
-
-    include "classes/update.php";
-
     $url = (parse_url($_SERVER['REQUEST_URI']));
     $url['path'] = str_replace('.php', '', $url['path']);
     $url['path'] = explode('/', $url['path']);
@@ -63,7 +14,6 @@ if (file_exists('config/settings.php')) {
         $query = false;
     }
 
-    $db_connection = masterConnect();
     $currentPage = $url['path'][$settings['base']];
 
     //todo: remove and use new helper class

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PHP Class for quickly securing forms against CSRF attacks
  *
@@ -6,7 +7,6 @@
  * @copyright 2015 Sam Collins
  * @link https://gist.github.com/MightySCollins/0096d193fdc4160565b3
  */
-
 class formToken
 {
     /**
@@ -19,12 +19,12 @@ class formToken
         return "<input name='token' value='" . $_SESSION['formtoken'][0] . "' type='hidden' />";
     }
 
-        /**
-         * Makes sure token in session is valid
-         *
-         * @return bool
-         * @param string $curToken
-         */
+    /**
+     * Makes sure token in session is valid
+     *
+     * @return bool
+     * @param string $curToken
+     */
     public static function validateToken($curToken)
     {
         if (!isset($_SESSION['formtoken']) || !isset($curToken['token'])) {
