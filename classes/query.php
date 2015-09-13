@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Class query
  */
@@ -9,36 +10,20 @@ class query
     public $user = 'cyberby1_testdb';
     public $password = 'q3S5[6nQGt}1';
 
-    public function player($uid = null, $start = null, $items = null, $search = null)
+    public function player($uid = null)
     {
         try {
             $dbh = new PDO("mysql:dbname=$this->dbname;host=$this->host", $this->user, $this->password);
             if (isset($uid)) {
                 $sql = $dbh->prepare("SELECT * FROM players WHERE uid = :uid;");
                 $sql->bindParam(':uid', $uid, PDO::PARAM_INT);
+                $sql->execute();
+                return $sql->fetch(PDO::FETCH_ASSOC);
             } else {
-                if (isset($search)) {
-                    if (isset($start) && isset($items)) {
-                        $sql = $dbh->prepare("SELECT * FROM players WHERE uid LIKE :search OR name LIKE :search OR playerid LIKE :search LIMIT :start, :items;");
-                        $sql->bindParam(':start', $start, PDO::PARAM_INT);
-                        $sql->bindParam(':items', $items, PDO::PARAM_INT);
-                        $sql->bindParam(':search', $search, PDO::PARAM_STR);
-                    } else {
-                        $sql = $dbh->prepare("SELECT * FROM players WHERE uid LIKE :search OR name LIKE :search OR playerid LIKE :search;");
-                        $sql->bindParam(':search', $search, PDO::PARAM_STR);
-                    }
-                } else {
-                    if (isset($start) && isset($items)) {
-                        $sql = $dbh->prepare("SELECT * FROM players LIMIT :start, :items;");
-                        $sql->bindParam(':start', $start, PDO::PARAM_INT);
-                        $sql->bindParam(':items', $items, PDO::PARAM_INT);
-                    } else {
-                        $sql = $dbh->prepare("SELECT * FROM players;");
-                    }
-                }
+                $sql = $dbh->prepare("SELECT name, playerid, cash, bankacc, coplevel, mediclevel, adminlevel, uid FROM players");
+                $sql->execute();
+                return $sql->fetchAll(PDO::FETCH_NUM);
             }
-            $sql->execute();
-            return $sql->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
             return $e;
         }
@@ -83,35 +68,20 @@ class query
         $dbh = null;
     }
 
-    public function vehicle($vehID = null, $start = null, $items = null, $search = null)
+    public function vehicle($vehID = null)
     {
         $dbh = new PDO("mysql:dbname=$this->dbname;host=$this->host", $this->user, $this->password);
         if (isset($vehID)) {
             $sql = $dbh->prepare("SELECT * FROM vehicles WHERE id = :vehID");
             $sql->bindParam(':vehID', $vehID, PDO::PARAM_INT);
+            $sql->execute();
+            $json['result'] = $sql->fetch(PDO::FETCH_ASSOC);
         } else {
-            if (isset($search)) {
-                if (isset($start) && isset($items)) {
-                    $sql = $dbh->prepare("SELECT * FROM vehicles WHERE uid LIKE :search OR name LIKE :search OR playerid LIKE :search LIMIT :start, :items;");
-                    $sql->bindParam(':start', $start, PDO::PARAM_INT);
-                    $sql->bindParam(':items', $items, PDO::PARAM_INT);
-                    $sql->bindParam(':search', $search, PDO::PARAM_STR);
-                } else {
-                    $sql = $dbh->prepare("SELECT * FROM vehicles WHERE uid LIKE :search OR name LIKE :search OR playerid LIKE :search;");
-                    $sql->bindParam(':search', $search, PDO::PARAM_STR);
-                }
-            } else {
-                if (isset($start) && isset($items)) {
-                    $sql = $dbh->prepare("SELECT * FROM vehicles LIMIT :start, :items;");
-                    $sql->bindParam(':start', $start, PDO::PARAM_INT);
-                    $sql->bindParam(':items', $items, PDO::PARAM_INT);
-                } else {
-                    $sql = $dbh->prepare("SELECT * FROM vehicles;");
-                }
-            }
+            $sql = $dbh->prepare("SELECT * FROM vehicles");
+            $sql->execute();
+            $json['result'] = $sql->fetchAll(PDO::FETCH_ASSOC);
         }
-        $sql->execute();
-        return $sql->fetchAll(PDO::FETCH_ASSOC);
+
         $dbh = null;
     }
 
@@ -389,29 +359,6 @@ class query
         }
     }
 
-    public function newUser($name, $password, $email, $level, $profile, $pid = null, $items = null, $twoFactor = null, $backup = null, $token = null)
-    {
-        try {
-            $helper = new helper();
-            $password = password_hash($password, PASSWORD_DEFAULT);
-            $permissions = $helper->permissions(1);
-
-            $dbh = new PDO("mysql:dbname=$this->dbname;host=$this->host", $this->user, $this->password);
-
-            $sql = $dbh->prepare("INSERT INTO users (user_name, user_password_hash, user_email, playerid, user_level, permissions, user_profile, items, twoFactor, backup, token) VALUES
-            (:name, :password, :email, :pid, :level, :permissions, :profile, :items, :twoFactor, :backup, :token)");
-            $sql->bindValue(':name', $name, PDO::PARAM_STR);
-            $sql->bindValue(':password', $password, PDO::PARAM_STR);
-            $sql->bindValue(':email', $email, PDO::PARAM_STR);
-            $sql->bindValue(':level', $level, PDO::PARAM_INT);
-            $sql->bindValue(':permissions', $permissions, PDO::PARAM_STR);
-            $sql->execute();
-        } catch (Exception $e) {
-            return $e;
-        }
-        return $dbh->lastInsertId();
-    }
-
     public function logAdd($user, $action, $level)
     {
         try {
@@ -443,7 +390,7 @@ class query
         return $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function items($uid, $items)
+    public function items($uid,$items)
     {
         try {
             $dbh = new PDO("mysql:dbname=$this->dbname;host=$this->host", $this->user, $this->password);

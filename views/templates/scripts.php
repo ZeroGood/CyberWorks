@@ -87,9 +87,13 @@
         document.location.href = redirecturl;
     }
 </script>
+<?php if(isset($datatable)) { ?>
 <script>
-        $('#datatable').DataTable();
+    $('#datatable').DataTable( {
+        "ajax": "<?php echo $settings['url'] . 'hooks/tables/' . $datatable ?>"
+    } );
 </script>
+<?php } ?>
 <script type="text/javascript">
     $('#myTab a').click(function (e) {
         console.log('clicked ' + this);
