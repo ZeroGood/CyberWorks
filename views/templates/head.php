@@ -11,6 +11,7 @@
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Ruda:400,700,900">
     <link rel="stylesheet" type="text/css" href="<?php echo $settings['url'] ?>assets/css/main.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.9/css/dataTables.bootstrap.min.css"/>
     
     <script type="text/javascript" src="<?php echo $settings['url'] ?>assets/js/jquery-1.11.3.min.js"></script> 
     

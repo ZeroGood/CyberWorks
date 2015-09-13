@@ -10,20 +10,36 @@ class query
     public $user = 'cyberby1_testdb';
     public $password = 'q3S5[6nQGt}1';
 
-    public function player($uid = null)
+    public function player($uid = null, $start = null, $items = null, $search = null)
     {
         try {
             $dbh = new PDO("mysql:dbname=$this->dbname;host=$this->host", $this->user, $this->password);
             if (isset($uid)) {
                 $sql = $dbh->prepare("SELECT * FROM players WHERE uid = :uid;");
                 $sql->bindParam(':uid', $uid, PDO::PARAM_INT);
-                $sql->execute();
-                return $sql->fetch(PDO::FETCH_ASSOC);
             } else {
-                $sql = $dbh->prepare("SELECT * FROM players");
-                $sql->execute();
-                return $sql->fetchAll(PDO::FETCH_ASSOC);
+                if (isset($search)) {
+                    if (isset($start) && isset($items)) {
+                        $sql = $dbh->prepare("SELECT * FROM players WHERE uid LIKE :search OR name LIKE :search OR playerid LIKE :search LIMIT :start, :items;");
+                        $sql->bindParam(':start', $start, PDO::PARAM_INT);
+                        $sql->bindParam(':items', $items, PDO::PARAM_INT);
+                        $sql->bindParam(':search', $search, PDO::PARAM_STR);
+                    } else {
+                        $sql = $dbh->prepare("SELECT * FROM players WHERE uid LIKE :search OR name LIKE :search OR playerid LIKE :search;");
+                        $sql->bindParam(':search', $search, PDO::PARAM_STR);
+                    }
+                } else {
+                    if (isset($start) && isset($items)) {
+                        $sql = $dbh->prepare("SELECT * FROM players LIMIT :start, :items;");
+                        $sql->bindParam(':start', $start, PDO::PARAM_INT);
+                        $sql->bindParam(':items', $items, PDO::PARAM_INT);
+                    } else {
+                        $sql = $dbh->prepare("SELECT * FROM players;");
+                    }
+                }
             }
+            $sql->execute();
+            return $sql->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
             return $e;
         }
@@ -68,20 +84,35 @@ class query
         $dbh = null;
     }
 
-    public function vehicle($vehID = null)
+    public function vehicle($vehID = null, $start = null, $items = null, $search = null)
     {
         $dbh = new PDO("mysql:dbname=$this->dbname;host=$this->host", $this->user, $this->password);
         if (isset($vehID)) {
             $sql = $dbh->prepare("SELECT * FROM vehicles WHERE id = :vehID");
             $sql->bindParam(':vehID', $vehID, PDO::PARAM_INT);
-            $sql->execute();
-            $json['result'] = $sql->fetch(PDO::FETCH_ASSOC);
         } else {
-            $sql = $dbh->prepare("SELECT * FROM vehicles");
-            $sql->execute();
-            $json['result'] = $sql->fetchAll(PDO::FETCH_ASSOC);
+            if (isset($search)) {
+                if (isset($start) && isset($items)) {
+                    $sql = $dbh->prepare("SELECT * FROM vehicles WHERE uid LIKE :search OR name LIKE :search OR playerid LIKE :search LIMIT :start, :items;");
+                    $sql->bindParam(':start', $start, PDO::PARAM_INT);
+                    $sql->bindParam(':items', $items, PDO::PARAM_INT);
+                    $sql->bindParam(':search', $search, PDO::PARAM_STR);
+                } else {
+                    $sql = $dbh->prepare("SELECT * FROM vehicles WHERE uid LIKE :search OR name LIKE :search OR playerid LIKE :search;");
+                    $sql->bindParam(':search', $search, PDO::PARAM_STR);
+                }
+            } else {
+                if (isset($start) && isset($items)) {
+                    $sql = $dbh->prepare("SELECT * FROM vehicles LIMIT :start, :items;");
+                    $sql->bindParam(':start', $start, PDO::PARAM_INT);
+                    $sql->bindParam(':items', $items, PDO::PARAM_INT);
+                } else {
+                    $sql = $dbh->prepare("SELECT * FROM vehicles;");
+                }
+            }
         }
-
+        $sql->execute();
+        return $sql->fetchAll(PDO::FETCH_ASSOC);
         $dbh = null;
     }
 
@@ -390,7 +421,7 @@ class query
         return $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function items($uid,$items)
+    public function items($uid, $items)
     {
         try {
             $dbh = new PDO("mysql:dbname=$this->dbname;host=$this->host", $this->user, $this->password);

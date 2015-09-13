@@ -76,7 +76,9 @@
         </div>
     </div>
 </div>
-<script async src="<?php echo $settings['url'] ?>assets/js/main.min.js"></script>
+<script src="<?php echo $settings['url'] ?>assets/js/main.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.9/js/dataTables.bootstrap.min.js"></script>
 <?php if (isset($_SESSION['forum_lang'])) echo '<script async type="text/javascript" src="' . $settings["url"] . 'assets/js/language/' . $_SESSION['forum_lang'] . '.js"></script>'; ?>
 <script>
     function searchpage() {
@@ -84,6 +86,9 @@
         redirecturl = '<?php echo $settings["url"] . $currentPage?>/' + sn;
         document.location.href = redirecturl;
     }
+</script>
+<script>
+        $('#datatable').DataTable();
 </script>
 <script type="text/javascript">
     $('#myTab a').click(function (e) {
