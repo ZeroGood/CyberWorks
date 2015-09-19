@@ -31,7 +31,7 @@ if (isset($_POST['db_host'])) {
             file_put_contents('config/settings.php', '<?php return ' . var_export($settings, true) . ';');
             var_dump($settings['allowLang']);
         } else {
-            logAction($_SESSION['user_name'], $lang['failedUpdate'] . ' ' . $lang['server'] . ' ' . $lang['settings'], 3);
+            $dao->logAdd($_SESSION['user_name'], $lang['failedUpdate'] . ' ' . $lang['server'] . ' ' . $lang['settings'], 3);
         }
     } else {
         message($lang['expired']);

@@ -5,7 +5,7 @@
         <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
     </div>
 
-    <a href="<?php echo $settings['url'] ?>dashboard" class="logo"><b>Cyber Works
+    <a href="<?php echo $settings['url'] ?>dashboard" class="logo"><b><?php echo (isset($settings['communityName']) ? strtoupper($settings['communityName']) : 'CYBER WORKS'); ?>
             <?php if ($debug) {
     echo '- Debug Mode';
 }
@@ -40,7 +40,7 @@
                 ?>
             <h5 class="centered">
                 <?php
-                if ($_SESSION['steamsignon']) echo '<i class="fa fa-steam-square"></i>';
+                if ($_SESSION['steamsignon']) echo '<i class="fa fa-steam-square"></i> ';
                 echo $_SESSION['user_name']; ?>
             </h5>
 
@@ -61,15 +61,7 @@
                     }
                 }
 
-                foreach ($settings['plugins'] as &$plugin) {
-                    if (file_exists("plugins/". $plugin. "/nav.php")) {
-                        include("plugins/". $plugin."/nav.php");
-                    }
-                }
-
-                $sql = "SELECT `sid`,`name` FROM `servers` WHERE `use_sq` = 1;";
-                $result = $db_connection->query($sql);
-                if ($result->num_rows >= 1) {
+                if (count($_SESSION['servers']) > 0) {
                 ?>
 					<li class="dropdown">
 						<a data-toggle="dropdown" class="dropdown-toggle" href="#">
@@ -77,11 +69,11 @@
 							<span><?php echo $lang['gameServers']; ?></span>
 						</a>
 						<ul class="dropdown-menu extended tasks-bar">
-							<?php while ($row = mysqli_fetch_assoc($result)) {	?>
+							<?php foreach($_SESSION['servers'] as $server) { ?>
 								<li style="colour:green;">
-									<a href="<?php echo $settings['url'] ?>curplayers/<?php echo $row['sid'] ?>">
+									<a href="<?php echo $settings['url'] ?>curplayers/<?php echo $server['sid'] ?>">
 										<i class="fa fa-cog"></i>
-										<span><?php echo $row['name']; ?></span>
+										<span><?php echo $server['name']; ?></span>
 									</a>
 								</li>
 							<?php } ?>
@@ -182,12 +174,6 @@
                                 <span><?php echo $lang['settings'] ?></span>
                             </a>
                         </li>
-                        <li>
-                            <a href="<?php echo $settings['url'] ?>pluginstore">
-                                <i class="fa fa-fw fa-shopping-cart"></i>
-                                <span><?php echo $lang['pluginstore'] ?></span>
-                            </a>
-                        </li>
                     </ul>
                 </li>
             <?php } if ($_SESSION['multiDB']) { ?>
@@ -202,9 +188,8 @@
                 <a href="<?php echo $settings['url'] ?>index?logout"><i class="fa fa-fw fa-power-off"></i> <?php echo $lang['navLogOut']; ?></a>
             </li>
             <?php if ($debug) {
-    include("views/debug/nav.php");
-}
-?>
+                include("views/debug/nav.php");
+            } ?>
         </ul>
     </div>
 </aside>
@@ -224,6 +209,6 @@
         ?>
     </section>
 </section>
-<?php include("views/templates/scripts.php"); ?>
+<?php include 'views/templates/scripts.php'; ?>
 </body>
 </html>

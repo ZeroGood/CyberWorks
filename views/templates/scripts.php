@@ -15,60 +15,27 @@
                 <div class="panel-body">
                     <div class="task-content">
                         <ul id="sortable" class="task-list ui-sortable">
-                            <?php
-                            $sql = "SELECT `sid`,`dbid`,`type`,`name` FROM `servers`;";
-                            $result_of_query = $db_connection->query($sql);
+                            <?php foreach ($_SESSION['servers'] as $server) { ?>
+                                <li class="list-primary">
+                                    <i class=" fa fa-ellipsis-v"></i>
 
-                            if ($result_of_query->num_rows > 1) {
-                                while ($row = mysqli_fetch_assoc($result_of_query)) {
-                                    if ($row['type'] == 'life') {
+                                    <div class="task-title">
+                                        <span class="task-title-sp"><?php echo $server['name']; ?></span>
+                                        <?php
+                                        if ($server['type'] == 'life') {
+                                            echo '<span class="badge bg-theme">Life</span>';
+                                        } elseif ($server['type'] == 'waste') {
+                                            echo '<span class="badge bg-important">Wasteland</span>';
+                                        }
                                         ?>
-                                        <li class="list-primary">
-                                            <i class=" fa fa-ellipsis-v"></i>
-
-                                            <div class="task-title">
-                                                <span class="task-title-sp"><?php echo $row['name']; ?></span>
-                                                <span class="badge bg-theme">Life</span>
-
-                                                <div class="pull-right hidden-phone">
-                                                    <form method="post" action="<?php echo $settings['url'] ?>dashboard">
-                                                        <input type="hidden" name="type"
-                                                               value="<?php echo $row['type']; ?>">
-                                                        <input type="hidden" name="dbid"
-                                                               value="<?php echo $row['dbid']; ?>">
-                                                        <button class="btn btn-success btn-sm fa fa-eye"
-                                                                type="submit" style="margin-right: 8px;  margin-bottom: 15px;"></button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    <?php
-                                    } elseif ($row['type'] == 'waste') {
-                                        ?>
-                                        <li class="list-danger">
-                                            <i class=" fa fa-ellipsis-v"></i>
-
-                                            <div class="task-title">
-                                                <span class="task-title-sp"><?php echo $row['name']; ?></span>
-                                                <span class="badge bg-important">Wasteland</span>
-
-                                                <div class="pull-right hidden-phone">
-                                                    <form method="post" action="<?php echo $settings['url'] ?>dashboard">
-                                                        <input type="hidden" name="type"
-                                                               value="<?php echo $row['type']; ?>">
-                                                        <input type="hidden" name="dbid"
-                                                               value="<?php echo $row['dbid']; ?>">
-                                                        <button class="btn btn-success btn-sm fa fa-eye"
-                                                                type="submit" style="margin-right: 8px;  margin-bottom: 15px;"></button>
-                                                    </form>
-                                                </div>
-                                        </li>
-                                    <?php
-                                    }
-                                }
-                                echo '</select>';
-                            }
-                            ?>
+                                        <div style="float:right; padding-right: 15px;">
+                                            <a href="<?php echo $settings['url'] . 'dashboard?id=' . $server['sid']; ?>"
+                                               class="btn btn-success btn-sm fa fa-eye" type="submit"></a>
+                                        </div>
+                                    </div>
+                                </li>
+                            <?php }
+                            echo '</select>'; ?>
                         </ul>
                     </div>
                 </div>
@@ -79,6 +46,7 @@
 <script src="<?php echo $settings['url'] ?>assets/js/main.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.9/js/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/responsive/1.0.7/js/dataTables.responsive.min.js"></script>
 <?php if (isset($_SESSION['forum_lang'])) echo '<script async type="text/javascript" src="' . $settings["url"] . 'assets/js/language/' . $_SESSION['forum_lang'] . '.js"></script>'; ?>
 <script>
     function searchpage() {
@@ -89,8 +57,27 @@
 </script>
 <?php if(isset($datatable)) { ?>
 <script>
-    $('#datatable').DataTable( {
-        "ajax": "<?php echo $settings['url'] . 'hooks/tables/' . $datatable ?>"
+    var oTable;
+    oTable = $('#datatable').DataTable( {
+        "ajax": "<?php echo $settings['url'] . 'hooks/table.php?' . $datatable ?>",
+        responsive: true,
+        "aoColumnDefs": [
+            {
+                "bSortable": false,
+                "aTargets": ["nosort"]
+            },
+            {
+                "bSearchable": false,
+                "aTargets": ["nosearch"]
+            }
+        ],
+        "columnDefs": [ {
+            "targets": 0,
+            "data": "download",
+            "render": function ( data, type, full, meta ) {
+                return '<a href="'+data+'">Download</a>';
+            }
+        } ]
     } );
 </script>
 <?php } ?>
@@ -104,10 +91,3 @@
         }
     });
 </script>
-<?php
-foreach ($settings['plugins'] as &$plugin) {
-    if (file_exists("plugins/" . $plugin . "/assets/scripts.js")) {
-        echo '<script type="text/javascript" src="' . $settings['url'] . 'plugins/' . $plugin . '/assets/scripts.js"></script>';
-    }
-}
-

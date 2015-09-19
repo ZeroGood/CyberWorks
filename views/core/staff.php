@@ -2,7 +2,7 @@
 $max = ' LIMIT ' . ($pageNum - 1) * $_SESSION['items'] . ',' . $_SESSION['items'];
 
 if (isset($search)) {
-    logAction($_SESSION['user_name'], $lang['searched'] . ' (' . $search . ') ' . $lang['in'] . ' ' . $lang['staff'], 3);
+    $dao->logAdd($_SESSION['user_name'], $lang['searched'] . ' (' . $search . ') ' . $lang['in'] . ' ' . $lang['staff'], 3);
 
     $sql = "SELECT * FROM `users` WHERE `user_name` LIKE '" . $search . "' OR `user_email` LIKE '" . $search . "' OR `user_id` LIKE '" . $search . "' OR `playerid` LIKE '" . $search . "';";
     $result_of_query = $db_connection->query($sql);

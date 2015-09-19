@@ -1,96 +1,4 @@
 <?php
-function encrypt($text)
-{
-    $settings = require('config/settings.php');
-    return trim(base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, $settings['key'], $text, MCRYPT_MODE_ECB, mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB), MCRYPT_RAND))));
-}
-
-function decrypt($text)
-{
-    $settings = require('config/settings.php');
-    return trim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $settings['key'], base64_decode($text), MCRYPT_MODE_ECB, mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB), MCRYPT_RAND)));
-}
-
-function masterConnect()
-{
-    $settings = require('config/settings.php');
-
-    if (isset($settings['db']['port'])) {
-        $db_connection = new mysqli(decrypt($settings['db']['host']), decrypt($settings['db']['user']), decrypt($settings['db']['pass']), decrypt($settings['db']['name']), decrypt($settings['db']['port']));
-    } else {
-        $db_connection = new mysqli(decrypt($settings['db']['host']), decrypt($settings['db']['user']), decrypt($settings['db']['pass']), decrypt($settings['db']['name']));
-    }
-    if (!$db_connection->set_charset("utf8")) {
-        $db_connection->errors[] = $db_connection->error;
-    }
-
-    return $db_connection;
-}
-
-function serverConnect($dbid = NULL)
-{
-    if (isset($_SESSION['dbid']) && empty($dbid)) {
-        $dbid = $_SESSION['dbid'];
-    }
-    $settings = require('config/settings.php');
-    $db_connection = masterConnect();
-
-    $sql = "SELECT `sql_host`,`sql_name`,`sql_pass`,`sql_user` FROM `db` WHERE `dbid` = '" . $dbid . "';";
-    $server = $db_connection->query($sql);
-
-    if ($server->num_rows === 1) {
-        $server = $server->fetch_object();
-        $host = decrypt($server->sql_host);
-
-        if (strpos($host, ":")) {
-            $SQL = explode(":", $host);
-            $host = $SQL['0'];
-            $port = $SQL['1'];
-        }
-
-        if (isset($port)) {
-            $db_link = new mysqli($host, decrypt($server->sql_user), decrypt($server->sql_pass), decrypt($server->sql_name), $port);
-        } else {
-            $db_link = new mysqli($host, decrypt($server->sql_user), decrypt($server->sql_pass), decrypt($server->sql_name));
-        }
-
-        if (!$db_link->set_charset("utf8")) {
-            $db_link->errors[] = $db_link->error;
-        }
-
-        return $db_link;
-    } else {
-        return false;
-    }
-
-}
-
-function carType($car, $lang)
-{
-    switch ($car) {
-        case 'Car':
-            return $lang['car'];
-            break;
-        case 'Air':
-            return $lang['air'];
-            break;
-        case 'Ship':
-            return $lang['ship'];
-            break;
-    }
-}
-
-function yesNo($input, $lang)
-{
-    if ($input == 1) {
-        return $lang['yes'];
-    } else if ($input == 0) {
-        return $lang['no'];
-    } else {
-        return $lang['error'];
-    }
-}
-
 function select($val, $row)
 {
     if ($row == $val) {
@@ -152,20 +60,8 @@ function IDname($name, $db_link)
 }
 
 /**
- * @param string $action
- * @param integer $level
+ * @param $text
  */
-function logAction($user, $action, $level)
-{
-    $settings = require('config/settings.php');
-
-    if ($settings['logging']) {
-        $db_connection = masterConnect();
-        $sql = "INSERT INTO `logs` (`user`, `action`, `level`) VALUES ('" . $user . "', '" . $action . "', '" . $level . "');";
-        $db_connection->query($sql);
-    }
-}
-
 function message($text)
 {
     echo "<br><div class='row'><div class='col-lg-12'>";
@@ -184,8 +80,7 @@ function error($errno, $errstr, $errfile, $errline)
  */
 function errorMessage($code, $lang)
 {
-    switch ($code)
-    {
+    switch ($code) {
         case 1:
             return $lang['lowVersion']; //Version too low
         case 2:
@@ -262,22 +157,6 @@ function steamBanned($PID)
     }
 }
 
-function multiDB()
-{
-    $db_connection = masterConnect();
-
-    $sql = "SELECT `sid`,`dbid`,`type` FROM `servers`;";
-    $db = $db_connection->query($sql);
-    if ($db->num_rows == 1) {
-        $iamDB = $db->fetch_object();
-        $_SESSION['multiDB'] = false;
-        $_SESSION['server_type'] = $iamDB->type;
-        $_SESSION['dbid'] = $iamDB->dbid;
-    } else {
-        $_SESSION['multiDB'] = true;
-    }
-}
-
 function tokenGen($length)
 {
     return substr(str_shuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'), 0, $length);
@@ -320,11 +199,13 @@ function clean($input, $type)
 {
     if ($type == 'string') {
         return filter_var(htmlspecialchars(trim($input)), FILTER_SANITIZE_STRING);
-    } elseif ($type == 'int') {$input = filter_var(htmlspecialchars(trim($input)), FILTER_SANITIZE_NUMBER_INT); if ($input < 0) {
-        return 0;
-    } else {
-        return $input;
-    }
+    } elseif ($type == 'int') {
+        $input = filter_var(htmlspecialchars(trim($input)), FILTER_SANITIZE_NUMBER_INT);
+        if ($input < 0) {
+            return 0;
+        } else {
+            return $input;
+        }
     } elseif ($type == 'url') {
         return filter_var(htmlspecialchars(trim($input)), FILTER_SANITIZE_URL);
     } elseif ($type == 'email') {
@@ -336,7 +217,7 @@ function clean($input, $type)
     } else {
         return 0;
     }
-    }
+}
 
 /**
  * @param string $this
@@ -354,7 +235,7 @@ function before($this, $inthat)
 function after($this, $inthat)
 {
     if (!is_bool(strpos($inthat, $this))) {
-            return substr($inthat, strpos($inthat, $this) + strlen($this));
+        return substr($inthat, strpos($inthat, $this) + strlen($this));
     }
 }
 
@@ -382,13 +263,14 @@ function communityBanned($GUID)
  * @return String containing either just a URL or a complete image tag
  * @source http://gravatar.com/site/implement/images/php/
  */
-function get_gravatar( $email, $s = 80, $d = 'mm', $r = 'x', $img = false, $atts = array() ) {
+function get_gravatar($email, $s = 80, $d = 'mm', $r = 'x', $img = false, $atts = array())
+{
     $url = 'https://www.gravatar.com/avatar/';
-    $url .= md5( strtolower( trim( $email ) ) );
+    $url .= md5(strtolower(trim($email)));
     $url .= "?s=$s&d=$d&r=$r";
-    if ( $img ) {
+    if ($img) {
         $url = '<img src="' . $url . '"';
-        foreach ( $atts as $key => $val )
+        foreach ($atts as $key => $val)
             $url .= ' ' . $key . '="' . $val . '"';
         $url .= ' />';
     }

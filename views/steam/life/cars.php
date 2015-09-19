@@ -5,7 +5,7 @@ require_once("config/carNames.php");
 $max = 'LIMIT ' . ($pageNum - 1) * $_SESSION['items'] . ',' . $_SESSION['items'];
 
 if (isset($search)) {
-    logAction($_SESSION['user_name'], $lang['searched'] . ' (' . $search . ') ' . $lang['in'] . ' ' . $lang['vehicles'], 1);
+    $dao->logAdd($_SESSION['user_name'], $lang['searched'] . ' (' . $search . ') ' . $lang['in'] . ' ' . $lang['vehicles'], 1);
 
     $sql = "SELECT `id`,`pid`,`classname`,`active`,`type`,`plate`,`alive`,`active` FROM `vehicles` INNER JOIN `players` ON vehicles.pid=players.playerid WHERE `pid` LIKE '" . $_SESSION['playerid'] . "' OR `classname` LIKE '%" . $search . "%' OR `name` LIKE '%" . $search . "%' OR `plate` LIKE '" . $search . "' OR `inventory` LIKE '%" . $search . "%';";
     $result_of_query = $db_link->query($sql);

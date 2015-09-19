@@ -11,7 +11,7 @@ if (isset($_SESSION['permissions']['edit']['player'])) {
         $db_link = serverConnect($_SESSION['dbid']);
 
         if ($settings['logging']) {
-            logAction($_SESSION['user_name'], $lang['edited'] . ' ' . uIDname($_POST['player'], $db_link) . ' ' . $lang['licenses'], 1);
+            $dao->logAdd($_SESSION['user_name'], $lang['edited'] . ' ' . uIDname($_POST['player'], $db_link) . ' ' . $lang['licenses'], 1);
         }
 
         if ($_POST['id'] == 'arrested') {

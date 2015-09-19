@@ -41,6 +41,10 @@ class webTest extends PHPUnit_Extensions_Selenium2TestCase
         $this->assertEquals('Cyber Works', $this->title());
     }
 
+    public function testLogin () {
+        $this->login() ///todo finish login system
+    }
+
     public function testEditPlayer()
     {
         $dao = new query();

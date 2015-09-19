@@ -16,34 +16,11 @@ if (file_exists('config/settings.php')) {
 
     $currentPage = $url['path'][$settings['base']];
 
-    //todo: remove and use new helper class
-    if (isset($_GET["page"])) {
-        $pageNum = clean($_GET["page"], 'int');
-        if ($pageNum < 1) {
-            $pageNum = 1;
-        }
-    } else {
-        $pageNum = 1;
-    }
-
-    $key = 0;
-    foreach ($settings['plugins'] as &$plugin) {
-        if (file_exists("plugins/" . $plugin . "/plugin.json")) {
-            if (file_exists("plugins/" . $plugin . "/init.php")) {
-                include("plugins/" . $plugin . "/init.php");
+    if (true) { //todo:make test for db connect
+        if ($login->loggedIn()) {
+            if (!isset($_SESSION['formtoken'])) {
+                formtoken::generateToken();
             }
-        } else {
-            if (array_count_values($settings['plugins']) <= 1) {
-                $settings['plugins'] = array();
-            } else {
-                unset($settings['plugins'][$key]);
-            } //todo: lang support when deleted
-        }
-        $key++;
-    }
-
-    if (!$db_connection->connect_errno) {
-        if ($login->isUserLoggedIn() == true) {
 
             if ($_SESSION['multiDB'] && isset($_GET['id'])) {
                 $server = $dao->servers($_GET['id']);
@@ -53,9 +30,6 @@ if (file_exists('config/settings.php')) {
                 }
             }
 
-            if (!isset($_SESSION['formtoken'])) {
-                formtoken::generateToken();
-            }
             if ($_SESSION['formtoken'][1] < time() - 600) {
                 formtoken::generateToken();
             }
@@ -105,12 +79,12 @@ if (file_exists('config/settings.php')) {
                                 if ($query) {
                                     $search = $url['path'][$settings['base'] + 1];
                                 }
-                                logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 1);
+                                $dao->logAdd($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 1);
                                 $page = "views/life/messages.php";
                             } else {
                                 $err = errorMessage(5, $lang);
                                 $page = "views/templates/error.php";
-                                logAction($_SESSION['user_name'], $lang['failedAccess'] . " 'messages'", 3);
+                                $dao->logAdd($_SESSION['user_name'], $lang['failedAccess'] . " 'messages'", 3);
                             }
                         }
 
@@ -119,19 +93,19 @@ if (file_exists('config/settings.php')) {
                             if ($query) {
                                 $search = $url['path'][$settings['base'] + 1];
                             }
-                            logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 1);
+                            $dao->logAdd($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 1);
                             $page = "views/life/players.php";
                         } else {
                             $err = errorMessage(5, $lang);
                             $page = "views/templates/error.php";
-                            logAction($_SESSION['user_name'], $lang['failedAccess'] . " 'players'", 3);
+                            $dao->logAdd($_SESSION['user_name'], $lang['failedAccess'] . " 'players'", 3);
                         }
 
                     } elseif ($currentPage == 'editplayer') {
                         if ($_SESSION['permissions']['edit']['player']) {
                             if ($query) {
                                 $uID = $url['path'][$settings['base'] + 1];
-                                logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 1);
+                                $dao->logAdd($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 1);
                                 $page = "views/life/editPlayer.php";
                             } else {
                                 $err = errorMessage(8, $lang);
@@ -147,19 +121,19 @@ if (file_exists('config/settings.php')) {
                             if ($query) {
                                 $search = $url['path'][$settings['base'] + 1];
                             }
-                            logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 1);
+                            $dao->logAdd($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 1);
                             $page = "views/life/vehicles.php";
                         } else {
                             $err = errorMessage(5, $lang);
                             $page = "views/templates/error.php";
-                            logAction($_SESSION['user_name'], $lang['failedAccess'] . " 'vehicles'", 3);
+                            $dao->logAdd($_SESSION['user_name'], $lang['failedAccess'] . " 'vehicles'", 3);
                         }
 
                     } elseif ($currentPage == 'editveh') {
                         if ($_SESSION['permissions']['edit']['vehicles']) {
                             if ($query) {
                                 $vehID = $url['path'][$settings['base'] + 1];
-                                logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 1);
+                                $dao->logAdd($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 1);
                                 $page = "views/life/editVeh.php";
                             } else {
                                 $err = errorMessage(8, $lang);
@@ -168,7 +142,7 @@ if (file_exists('config/settings.php')) {
                         } else {
                             $err = errorMessage(5, $lang);
                             $page = "views/templates/error.php";
-                            logAction($_SESSION['user_name'], $lang['failedAccess'] . " 'editVeh'", 3);
+                            $dao->logAdd($_SESSION['user_name'], $lang['failedAccess'] . " 'editVeh'", 3);
                         }
 
                     } elseif ($currentPage == 'medic') {
@@ -178,7 +152,7 @@ if (file_exists('config/settings.php')) {
                             } else {
                                 $start_from = 0;
                             }
-                            logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 1);
+                            $dao->logAdd($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 1);
                             $page = "views/life/medics.php";
                         }
 
@@ -189,12 +163,12 @@ if (file_exists('config/settings.php')) {
                             } else {
                                 $start_from = 0;
                             }
-                            logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 1);
+                            $dao->logAdd($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 1);
                             $page = "views/life/police.php";
                         } else {
                             $err = errorMessage(5, $lang);
                             $page = "views/templates/error.php";
-                            logAction($_SESSION['user_name'], $lang['failedAccess'] . " 'houses'", 3);
+                            $dao->logAdd($_SESSION['user_name'], $lang['failedAccess'] . " 'houses'", 3);
                         }
 
                     } elseif ($currentPage == 'houses') {
@@ -202,19 +176,19 @@ if (file_exists('config/settings.php')) {
                             if ($query) {
                                 $search = $url['path'][$settings['base'] + 1];
                             }
-                            logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 1);
+                            $dao->logAdd($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 1);
                             $page = "views/life/houses.php";
                         } else {
                             $err = errorMessage(5, $lang);
                             $page = "views/templates/error.php";
-                            logAction($_SESSION['user_name'], $lang['failedAccess'] . " 'houses'", 3);
+                            $dao->logAdd($_SESSION['user_name'], $lang['failedAccess'] . " 'houses'", 3);
                         }
 
                     } elseif ($currentPage == 'edithouse') {
                         if ($_SESSION['permissions']['edit']['houses']) {
                             if ($query) {
                                 $hID = $url['path'][$settings['base'] + 1];
-                                logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 1);
+                                $dao->logAdd($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 1);
                                 $page = "views/life/editHouse.php";
                             } else {
                                 $err = errorMessage(8, $lang);
@@ -223,7 +197,7 @@ if (file_exists('config/settings.php')) {
                         } else {
                             $err = errorMessage(5, $lang);
                             $page = "views/templates/error.php";
-                            logAction($_SESSION['user_name'], $lang['failedAccess'] . " 'editHouse'", 3);
+                            $dao->logAdd($_SESSION['user_name'], $lang['failedAccess'] . " 'editHouse'", 3);
                         }
 
                     } elseif ($currentPage == 'gangs') {
@@ -231,19 +205,19 @@ if (file_exists('config/settings.php')) {
                             if ($query) {
                                 $search = $url['path'][$settings['base'] + 1];
                             }
-                            logAction($_SESSION['user_name'], $lang['visited'] . " 'gangs'", 1);
+                            $dao->logAdd($_SESSION['user_name'], $lang['visited'] . " 'gangs'", 1);
                             $page = "views/life/gangs.php";
                         } else {
                             $err = errorMessage(5, $lang);
                             $page = "views/templates/error.php";
-                            logAction($_SESSION['user_name'], $lang['failedAccess'] . " 'gangs'", 3);
+                            $dao->logAdd($_SESSION['user_name'], $lang['failedAccess'] . " 'gangs'", 3);
                         }
 
                     } elseif ($currentPage == 'editgang') {
                         if ($_SESSION['permissions']['edit']['gangs']) {
                             if ($query) {
                                 $gID = $url['path'][$settings['base'] + 1];
-                                logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 1);
+                                $dao->logAdd($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 1);
                                 $page = "views/life/editGang.php";
                             } else {
                                 $err = errorMessage(8, $lang);
@@ -252,7 +226,7 @@ if (file_exists('config/settings.php')) {
                         } else {
                             $err = errorMessage(5, $lang);
                             $page = "views/templates/error.php";
-                            logAction($_SESSION['user_name'], $lang['failedAccess'] . " 'editGang'", 3);
+                            $dao->logAdd($_SESSION['user_name'], $lang['failedAccess'] . " 'editGang'", 3);
                         }
 
                     } elseif ($currentPage == 'wanted') {
@@ -260,19 +234,19 @@ if (file_exists('config/settings.php')) {
                             if ($query) {
                                 $search = $url['path'][$settings['base'] + 1];
                             }
-                            logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 1);
+                            $dao->logAdd($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 1);
                             $page = "views/life/wanted.php";
                         } else {
                             $err = errorMessage(5, $lang);
                             $page = "views/templates/error.php";
-                            logAction($_SESSION['user_name'], $lang['failedAccess'] . " 'wanted'", 3);
+                            $dao->logAdd($_SESSION['user_name'], $lang['failedAccess'] . " 'wanted'", 3);
                         }
 
                     } elseif ($currentPage == 'editwanted') {
                         if ($_SESSION['permissions']['edit']['wanted']) {
                             if ($query) {
                                 $wantedID = $url['path'][$settings['base'] + 1];
-                                logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 1);
+                                $dao->logAdd($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 1);
                                 $page = "views/life/editWanted.php";
                             } else {
                                 $err = errorMessage(8, $lang);
@@ -281,7 +255,7 @@ if (file_exists('config/settings.php')) {
                         } else {
                             $err = errorMessage(5, $lang);
                             $page = "views/templates/error.php";
-                            logAction($_SESSION['user_name'], $lang['failedAccess'] . " 'editWanted'", 3);
+                            $dao->logAdd($_SESSION['user_name'], $lang['failedAccess'] . " 'editWanted'", 3);
                         }
                     }
 
@@ -293,7 +267,7 @@ if (file_exists('config/settings.php')) {
                     } elseif ($currentPage == 'editveh') {
                         if ($query) {
                             $vehID = $url['path'][$settings['base'] + 1];
-                            logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 1);
+                            $dao->logAdd($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 1);
                             $page = "views/steam/life/editVeh.php";
                         } else {
                             $err = errorMessage(8, $lang);
@@ -302,7 +276,7 @@ if (file_exists('config/settings.php')) {
                     } elseif ($currentPage == 'edithouse') {
                         if ($query) {
                             $hID = $url['path'][$settings['base'] + 1];
-                            logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 1);
+                            $dao->logAdd($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 1);
                             $page = "views/steam/life/editHouse.php";
                         } else {
                             $err = errorMessage(8, $lang);
@@ -311,7 +285,7 @@ if (file_exists('config/settings.php')) {
                     }
                 }
             }
-            if ($currentPage == 'newdb' || $currentPage == 'newserver' || $currentPage == 'settings' || $currentPage == 'editstaff' || $currentPage == 'staff' || $currentPage == 'pluginstore' || $currentPage == 'newuser' || $currentPage == 'logs') {
+            if ($currentPage == 'newdb' || $currentPage == 'newserver' || $currentPage == 'settings' || $currentPage == 'editstaff' || $currentPage == 'staff' || $currentPage == 'newuser' || $currentPage == 'logs') {
                 if (isset($_POST['passTest'])) {
                     $sql = "SELECT user_password_hash FROM users WHERE user_id = '" . $_SESSION['user_id'] . "';";
                     $pass = $db_connection->query($sql)->fetch_object()->user_password_hash;
@@ -326,38 +300,38 @@ if (file_exists('config/settings.php')) {
                 } else {
                     if ($currentPage == 'newdb') {
                         if ($_SESSION['permissions']['super_admin']) {
-                            logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 2);
+                            $dao->logAdd($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 2);
                             $page = "views/core/newDB.php";
                         } else {
                             $err = errorMessage(5, $lang);
                             $page = "views/templates/error.php";
-                            logAction($_SESSION['user_name'], $lang['failedAccess'] . " 'newDB'", 3);
+                            $dao->logAdd($_SESSION['user_name'], $lang['failedAccess'] . " 'newDB'", 3);
                         }
                     } elseif ($currentPage == 'newserver') {
                         if ($_SESSION['permissions']['super_admin']) {
-                            logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 2);
+                            $dao->logAdd($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 2);
                             $page = "views/core/newServer.php";
                         } else {
                             $err = errorMessage(5, $lang);
                             $page = "views/templates/error.php";
-                            logAction($_SESSION['user_name'], $lang['failedAccess'] . " 'newServer'", 3);
+                            $dao->logAdd($_SESSION['user_name'], $lang['failedAccess'] . " 'newServer'", 3);
                         }
 
                     } elseif ($currentPage == 'settings') {
                         if ($_SESSION['permissions']['super_admin']) {
-                            logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 2);
+                            $dao->logAdd($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 2);
                             $page = "views/core/settings.php";
                         } else {
                             $err = errorMessage(5, $lang);
                             $page = "views/templates/error.php";
-                            logAction($_SESSION['user_name'], $lang['failedAccess'] . " 'settings'", 3);
+                            $dao->logAdd($_SESSION['user_name'], $lang['failedAccess'] . " 'settings'", 3);
                         }
 
                     } elseif ($currentPage == 'editstaff') {
                         if ($_SESSION['permissions']['edit']['staff']) {
                             if ($query) {
                                 $uId = $url['path'][$settings['base'] + 1];
-                                logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 2);
+                                $dao->logAdd($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 2);
                                 $page = "views/core/editStaff.php";
                             } else {
                                 $err = errorMessage(8, $lang);
@@ -365,38 +339,29 @@ if (file_exists('config/settings.php')) {
                             }
                         } else {
                             $err = errorMessage(5, $lang); $page = "views/templates/error.php";
-                            logAction($_SESSION['user_name'], $lang['failedAccess'] . " 'editStaff'", 3);
+                            $dao->logAdd($_SESSION['user_name'], $lang['failedAccess'] . " 'editStaff'", 3);
                         }
                     } elseif ($currentPage == 'staff') {
                         if ($_SESSION['permissions']['view']['staff']) {
                             if ($query) {
                                 $search = $url['path'][$settings['base'] + 1];
                             }
-                            logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 2);
+                            $dao->logAdd($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 2);
                             $page = "views/core/staff.php";
                         } else {
                             $err = errorMessage(5, $lang); $page = "views/templates/error.php";
-                            logAction($_SESSION['user_name'], $lang['failedAccess'] . " 'staff'", 3);
-                        }
-
-                    } elseif ($currentPage == 'pluginstore') {
-                        if ($_SESSION['permissions']['super_admin']) {
-                            logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 2);
-                            $page = "views/core/pluginstore.php";
-                        } else {
-                            $err = errorMessage(5, $lang); $page = "views/templates/error.php";
-                            logAction($_SESSION['user_name'], $lang['failedAccess'] . " 'pluginstore'", 3);
+                            $dao->logAdd($_SESSION['user_name'], $lang['failedAccess'] . " 'staff'", 3);
                         }
 
                     } elseif ($currentPage == 'newuser') {
                         if ($_SESSION['permissions']['edit']['staff']) {
                             require_once("classes/registration.php");
                             $registration = new Registration();
-                            logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 2);
+                            $dao->logAdd($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 2);
                             $page = "views/core/newUser.php";
                         } else {
                             $err = errorMessage(5, $lang); $page = "views/templates/error.php";
-                            logAction($_SESSION['user_name'], $lang['failedAccess'] . " 'newUser'", 3);
+                            $dao->logAdd($_SESSION['user_name'], $lang['failedAccess'] . " 'newUser'", 3);
                         }
 
                     } elseif ($currentPage == 'logs' && $settings['logging']) {
@@ -404,11 +369,11 @@ if (file_exists('config/settings.php')) {
                             if ($query) {
                                 $search = $url['path'][$settings['base'] + 1];
                             }
-                            logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 2);
+                            $dao->logAdd($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 2);
                             $page = "views/core/logs.php";
                         } else {
                             $err = errorMessage(5, $lang); $page = "views/templates/error.php";
-                            logAction($_SESSION['user_name'], $lang['failedAccess'] . " 'noPerm'", 3);
+                            $dao->logAdd($_SESSION['user_name'], $lang['failedAccess'] . " 'noPerm'", 3);
                         }
                     }
                 }
@@ -418,7 +383,7 @@ if (file_exists('config/settings.php')) {
                 if ($_SESSION['permissions']['view']['curplayer']) {
                     if ($query) {
                         $sid = $url['path'][$settings['base'] + 1];
-                        logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 2);
+                        $dao->logAdd($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 2);
                         $page = "views/core/curPlayers.php";
                     } else {
                         $err = errorMessage(8, $lang);
@@ -427,22 +392,17 @@ if (file_exists('config/settings.php')) {
                 }
             } elseif ($currentPage == 'servers') {
                 if ($_SESSION['permissions']['super_admin']) {
-                    logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 2);
+                    $dao->logAdd($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 2);
                     $page = "views/core/servers.php";
                 }
             } elseif ($currentPage == 'editserver') {
                 if ($_SESSION['permissions']['super_admin']) {
                     if ($query) {
                         $id = $url['path'][$settings['base'] + 1];
-                        logAction($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 2);
+                        $dao->logAdd($_SESSION['user_name'], $lang['visited'] . " '" . $currentPage . "'", 2);
                         $page = "views/core/editServer.php";
                     } else {$err = errorMessage(8, $lang); $page = "views/templates/error.php"; }
                 } else {$err = errorMessage(5, $lang); $page = "views/templates/error.php"; }
-            }
-            foreach ($settings['plugins'] as &$plugin) {
-                if (file_exists("plugins/" . $plugin . "/pageRules.php")) {
-                    include("plugins/" . $plugin . "/pageRules.php");
-                }
             }
 
             if ($currentPage == '2factor' && isset($_SESSION['user_email'])) {

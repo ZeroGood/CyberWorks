@@ -21,7 +21,7 @@ if (isset($_POST["editType"])) {
                     $sql = "SELECT `pid`,`classname` FROM `vehicles` WHERE `id` ='" . $vehID . "';";
                     $result_of_query = $db_link->query($sql);
                     while ($row = mysqli_fetch_assoc($result_of_query)) {
-                        logAction($_SESSION['user_name'], $lang['edited'] . ' ' . nameID($row["pid"], $db_link) . '\'s ' . carName($row["classname"]) . '(' . $vehID . ')', 1);
+                        $dao->logAdd($_SESSION['user_name'], $lang['edited'] . ' ' . nameID($row["pid"], $db_link) . '\'s ' . carName($row["classname"]) . '(' . $vehID . ')', 1);
                     }
                     break;
 
@@ -32,7 +32,7 @@ if (isset($_POST["editType"])) {
                     $sql = "SELECT `pid`,`classname` FROM `vehicles` WHERE `id` ='" . $vehID . "';";
                     $result_of_query = $db_link->query($sql);
                     while ($row = mysqli_fetch_assoc($result_of_query)) {
-                        logAction($_SESSION['user_name'], $lang['stored'] . ' ' . nameID($row["pid"], $db_link) . '\'s ' . carName($row["classname"]) . '(' . $vehID . ')', 1);
+                        $dao->logAdd($_SESSION['user_name'], $lang['stored'] . ' ' . nameID($row["pid"], $db_link) . '\'s ' . carName($row["classname"]) . '(' . $vehID . ')', 1);
                     }
                     break;
 
@@ -43,7 +43,7 @@ if (isset($_POST["editType"])) {
                     $sql = "SELECT `pid`,`classname` FROM `vehicles` WHERE `id` ='" . $vehID . "';";
                     $result_of_query = $db_link->query($sql);
                     while ($row = mysqli_fetch_assoc($result_of_query)) {
-                        logAction($_SESSION['user_name'], $lang['deleted'] . ' ' . nameID($row["pid"], $db_link) . '\'s ' . carName($row["classname"]) . '(' . $vehID . ')', 2);
+                        $dao->logAdd($_SESSION['user_name'], $lang['deleted'] . ' ' . nameID($row["pid"], $db_link) . '\'s ' . carName($row["classname"]) . '(' . $vehID . ')', 2);
                     }
                     break;
 
@@ -57,7 +57,7 @@ if (isset($_POST["editType"])) {
                     $sql = "SELECT `pid` FROM `vehicles` WHERE `id` ='" . $vehID . "';";
                     $result_of_query = $db_link->query($sql);
                     while ($row = mysqli_fetch_assoc($result_of_query)) {
-                        logAction($_SESSION['user_name'], $lang['edited'] . ' ' . nameID($row["pid"], $db_link) . '\'s ' . carName($vehClass) . '(' . $vehID . ')', 1);
+                        $dao->logAdd($_SESSION['user_name'], $lang['edited'] . ' ' . nameID($row["pid"], $db_link) . '\'s ' . carName($vehClass) . '(' . $vehID . ')', 1);
                     }
                     break;
             }

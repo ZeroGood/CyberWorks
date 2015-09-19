@@ -3,7 +3,7 @@ $db_link = serverConnect();
 $max = 'LIMIT ' . ($pageNum - 1) * $_SESSION['items'] . ',' . $_SESSION['items'];
 
 if (isset($search)) {
-    logAction($_SESSION['user_name'], $lang['searched'] . ' (' . $search . ') ' . $lang['in'] . ' ' . $lang['vehicles'], 1);
+    $dao->logAdd($_SESSION['user_name'], $lang['searched'] . ' (' . $search . ') ' . $lang['in'] . ' ' . $lang['vehicles'], 1);
     $sql = "SELECT `id` FROM `houses` INNER JOIN `players` ON houses.pid=players.playerid WHERE `id` LIKE '" . $search . "' OR `pos` LIKE '" . $search . "' OR `inventory` LIKE '%" . $search . "%' OR `name` LIKE '%" . $search . "%' AND `pid` = '" . $_SESSION['playerid'] . "';";
     $result_of_query = $db_link->query($sql);
     $total_records = mysqli_num_rows($result_of_query);

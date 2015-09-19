@@ -1,32 +1,36 @@
-<?php $datatable = 'players.php'; ?>
+<?php $datatable = 'players'; ?>
+
 <h1 class="page-header">
     <?php echo $lang['players']; ?>
-    <small><?php echo $lang['overview']; ?></small>
 </h1>
 <div class="content-panel">
-    <table id="datatable"  class="table table-striped table-bordered" cellspacing="0" width="100%">
-        <thead>
-        <tr>
-            <th><?php echo $lang['name']; ?></th>
-            <th><?php echo $lang['playerID']; ?></th>
-            <th><?php echo $lang['cash']; ?></th>
-            <th><?php echo $lang['bank']; ?></th>
-            <th><?php echo $lang['cop']; ?></th>
-            <th><?php echo $lang['medic']; ?></th>
-            <th><?php echo $lang['admin']; ?></th>
-        </tr>
-        </thead>
+    <div class="small-padding">
+        <table id="datatable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+            <thead>
+            <tr>
+                <th><?php echo $lang['uid']; ?></th>
+                <th><?php echo $lang['name']; ?></th>
+                <th><?php echo $lang['playerID']; ?></th>
+                <th><?php echo $lang['cash']; ?></th>
+                <th><?php echo $lang['bank']; ?></th>
+                <th><?php echo $lang['cop']; ?></th>
+                <th><?php echo $lang['medic']; ?></th>
+                <th><?php echo $lang['admin']; ?></th>
+            </tr>
+            </thead>
 
-        <tfoot>
-        <tr>
-            <th><?php echo $lang['name']; ?></th>
-            <th><?php echo $lang['playerID']; ?></th>
-            <th><?php echo $lang['cash']; ?></th>
-            <th><?php echo $lang['bank']; ?></th>
-            <th><?php echo $lang['cop']; ?></th>
-            <th><?php echo $lang['medic']; ?></th>
-            <th><?php echo $lang['admin']; ?></th>
-        </tr>
-        </tfoot>
-    </table>
+            <tfoot>
+            <tr>
+                <th><?php echo $lang['uid']; ?></th>
+                <th><?php echo $lang['name']; ?></th>
+                <th><?php echo $lang['playerID']; ?></th>
+                <th><?php echo $lang['cash']; ?></th>
+                <th><?php echo $lang['bank']; ?></th>
+                <th><?php echo $lang['cop']; ?></th>
+                <th><?php echo $lang['medic']; ?></th>
+                <th><?php echo $lang['admin']; ?></th>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
 </div>

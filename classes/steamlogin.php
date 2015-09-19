@@ -54,10 +54,10 @@ class user
                             $_SESSION['steamsignon'] = false; //used to determine if its a single sign on with no account
                             multiDB();
 
-                            logAction($_SESSION['user_name'], 'Successful Steam Login (' . $_SERVER['REMOTE_ADDR'] . ')', 2);
+                            $dao->logAdd($_SESSION['user_name'], 'Successful Steam Login (' . $_SERVER['REMOTE_ADDR'] . ')', 2);
                         } else {
                             $this->errors[] = "User is banned.";
-                            logAction($_POST['user_name'], 'Steam Login Failed - Banned User (' . $_SERVER['REMOTE_ADDR'] . ')', 3);
+                            $dao->logAdd($_POST['user_name'], 'Steam Login Failed - Banned User (' . $_SERVER['REMOTE_ADDR'] . ')', 3);
                         }
                     } else {
                         if ($settings['annonlogin']) {
@@ -73,7 +73,7 @@ class user
                             $_SESSION['steamsignon'] = true; //used to determine if its a single sign on with no account
                             multiDB();
 
-                            logAction($_SESSION['user_name'], 'Successful Steam Login (' . $_SERVER['REMOTE_ADDR'] . ')', 2);
+                            $dao->logAdd($_SESSION['user_name'], 'Successful Steam Login (' . $_SERVER['REMOTE_ADDR'] . ')', 2);
                         } else {
                             errorMessage(7);
                         }
@@ -92,7 +92,7 @@ if (isset($_GET['login'])) {
     $user->signIn();
 }
 if ($settings['steamlogin']) {
-    print ('<form action="?login" method="post"><input type="image"
+    print ('<form action="?steam" method="post"><input type="image"
     src="http://cdn.steamcommunity.com/public/images/signinthroughsteam/sits_large_noborder.png"/>
     </form>');
 }

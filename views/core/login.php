@@ -91,7 +91,7 @@ if (isset($_GET['token']) && isset($_GET['uID']) && $settings['passreset']) {
 <?php
         } else {
             $error = 'User not found or token invalid';
-            logAction($_POST['email'], ' ' . $lang['passreset'], 3);
+            $dao->logAdd($_POST['email'], ' ' . $lang['passreset'], 3);
         }
     }
 }
@@ -124,8 +124,11 @@ if (isset($_GET['token']) && isset($_GET['uID']) && $settings['passreset']) {
             <h2><a data-toggle="modal" href="#login"><i id="loginLock" class="fa fa-lock"></i></a></h2>
 
             <h3>LOGIN</h3>
-            <?php if (isset($settings['steamAPI']) && $settings['steamlogin'] == 'true' && isset($settings['steamdomain'])) {
-                include 'classes/steamlogin.php';
+            <?php
+            if (!empty($settings['steamAPI']) && $settings['steamlogin'] && !empty($settings['steamdomain'])) {
+                echo '<form action="?steam" method="post">
+                <input type="image" src="http://cdn.steamcommunity.com/public/images/signinthroughsteam/sits_large_noborder.png"/>
+                </form>';
             }
             if ($settings['passreset']) {
                 echo '<a data-toggle="modal" href="#pass"> <span>Password Reset</span></a>';

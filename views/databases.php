@@ -8,7 +8,7 @@ if (isset($_GET["page"])) {
 $max = ' LIMIT ' . ($page - 1) * $_SESSION['items'] . ',' . $_SESSION['items'];
 
 if (isset($search)) {
-    logAction($_SESSION['user_name'], $lang['searched'] . ' (' . $search . ') ' . $lang['in'] . ' ' . $lang['database'], 1);
+    $dao->logAdd($_SESSION['user_name'], $lang['searched'] . ' (' . $search . ') ' . $lang['in'] . ' ' . $lang['database'], 1);
     $sql = "SELECT * FROM `db` WHERE `dbid` LIKE '" . $search . "' OR `type` LIKE '%" . $search . "%';"; //todo: name searching
     $result_of_query = $db_connection->query($sql);
     $total_records = mysqli_num_rows($result_of_query);

@@ -29,7 +29,7 @@ if (isset($_POST["editType"])) {
                 $civ_gear_value = $_POST["civ_inv_value"];
                 $update = "UPDATE `players` SET civ_gear = '" . $civ_gear_value . "' WHERE `uid` = '" . $uID . "' ";
                 $result_of_query = $db_link->query($update);
-                logAction($_SESSION['user_name'], $lang['edited'] . ' ' . nameID($player->playerid, $db_link) . '(' . $player->playerid . ') ' . $lang['civ'] . ' ' . $lang['inventory'], 1);
+                $dao->logAdd($_SESSION['user_name'], $lang['edited'] . ' ' . nameID($player->playerid, $db_link) . '(' . $player->playerid . ') ' . $lang['civ'] . ' ' . $lang['inventory'], 1);
                 message($lang['edited'] . ' ' . $lang['civ'] . ' ' . $lang['inventory']);
                 break;
 
@@ -37,7 +37,7 @@ if (isset($_POST["editType"])) {
                 $cop_gear_value = $_POST["cop_inv_value"];
                 $update = "UPDATE `players` SET cop_gear = '" . $cop_gear_value . "' WHERE `uid` = '" . $uID . "' ";
                 $result_of_query = $db_link->query($update);
-                logAction($_SESSION['user_name'], $lang['edited'] . ' ' . nameID($player->playerid, $db_link) . '(' . $player->playerid . ') ' . $lang['cop'] . ' ' . $lang['inventory'], 1);
+                $dao->logAdd($_SESSION['user_name'], $lang['edited'] . ' ' . nameID($player->playerid, $db_link) . '(' . $player->playerid . ') ' . $lang['cop'] . ' ' . $lang['inventory'], 1);
                 message($lang['edited'] . ' ' . $lang['cop'] . ' ' . $lang['inventory']);
                 break;
 
@@ -45,7 +45,7 @@ if (isset($_POST["editType"])) {
                 $med_gear_value = $_POST["med_inv_value"];
                 $update = "UPDATE `players` SET med_gear = '" . $med_gear_value . "' WHERE `uid` = '" . $uID . "' ";
                 $result_of_query = $db_link->query($update);
-                logAction($_SESSION['user_name'], $lang['edited'] . ' ' . nameID($player->playerid, $db_link) . '(' . $player->playerid . ') ' . $lang['medic'] . ' ' . $lang['inventory'], 1);
+                $dao->logAdd($_SESSION['user_name'], $lang['edited'] . ' ' . nameID($player->playerid, $db_link) . '(' . $player->playerid . ') ' . $lang['medic'] . ' ' . $lang['inventory'], 1);
                 message($lang['edited'] . ' ' . $lang['medic'] . ' ' . $lang['inventory']);
                 break;
 
@@ -64,14 +64,14 @@ if (isset($_POST["editType"])) {
                     if ($result->num_rows > 0) {
                         $player = $result->fetch_object();
 
-                        if ($coplevel <> $player->coplevel) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['cop'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $player->coplevel . ") " . $lang['to'] . " (" . $coplevel . ")", 2);
-                        if ($mediclevel <> $player->mediclevel) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['medic'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $player->mediclevel . ") " . $lang['to'] . " (" . $mediclevel . ")", 2);
-                        if ($donatorlvl <> $player->donatorlvl) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['donator'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $player->donatorlvl . ") " . $lang['to'] . " (" . $donatorlvl . ")", 2);
-                        if ($adminlevel <> $player->adminlevel) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['admin'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $player->adminlevel. ") " . $lang['to'] . " ('" . $adminlevel . ")", 2);
-                        if ($cash <> $player->cash) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['cash'] . " " . $lang['from'] . " '" . $player->cash . "' " . $lang['to'] . " (" . $cash . "''", 2);
-                        if ($bankacc <> $player->bankacc) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['bank'] . " " . $lang['from'] . " '" . $player->bankacc . "' " . $lang['to'] . " (" . $bankacc . "''", 2);
-                        if ($arrested <> $player->arrested) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['bank'] . " " . $lang['from'] . " '" . $player->cash . "' " . $lang['to'] . " (" . $cash . "''", 2);
-                        if ($blacklist <> $player->blacklist) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['bank'] . " " . $lang['from'] . " '" . $player->cash . "' " . $lang['to'] . " (" . $cash . "''", 2); //todo:finish
+                        if ($coplevel <> $player->coplevel) $dao->logAdd($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['cop'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $player->coplevel . ") " . $lang['to'] . " (" . $coplevel . ")", 2);
+                        if ($mediclevel <> $player->mediclevel) $dao->logAdd($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['medic'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $player->mediclevel . ") " . $lang['to'] . " (" . $mediclevel . ")", 2);
+                        if ($donatorlvl <> $player->donatorlvl) $dao->logAdd($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['donator'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $player->donatorlvl . ") " . $lang['to'] . " (" . $donatorlvl . ")", 2);
+                        if ($adminlevel <> $player->adminlevel) $dao->logAdd($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['admin'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $player->adminlevel. ") " . $lang['to'] . " ('" . $adminlevel . ")", 2);
+                        if ($cash <> $player->cash) $dao->logAdd($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['cash'] . " " . $lang['from'] . " '" . $player->cash . "' " . $lang['to'] . " (" . $cash . "''", 2);
+                        if ($bankacc <> $player->bankacc) $dao->logAdd($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['bank'] . " " . $lang['from'] . " '" . $player->bankacc . "' " . $lang['to'] . " (" . $bankacc . "''", 2);
+                        if ($arrested <> $player->arrested) $dao->logAdd($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['bank'] . " " . $lang['from'] . " '" . $player->cash . "' " . $lang['to'] . " (" . $cash . "''", 2);
+                        if ($blacklist <> $player->blacklist) $dao->logAdd($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['bank'] . " " . $lang['from'] . " '" . $player->cash . "' " . $lang['to'] . " (" . $cash . "''", 2); //todo:finish
 
 
                         $update = "UPDATE `players` SET coplevel = '" . $coplevel . "', mediclevel = '" . $mediclevel . "', donatorlvl = '" . $donatorlvl . "', adminlevel = '" . $adminlevel . "', cash = '" . $cash . "', bankacc = '" . $bankacc . "', arrested = '" . $arrested . "', blacklist = '" . $blacklist . "' WHERE `uid` = '" . $uID . "' ";
@@ -92,14 +92,14 @@ if (isset($_POST["editType"])) {
                     $result = $db_link->query($sql);
                     if ($result->num_rows > 0) {
                         $player = $result->fetch_object();
-                        if ($coplevel <> $player->coplevel) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['cop'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $player->coplevel . ") " . $lang['to'] . " (" . $coplevel . ")", 2);
-                        if ($mediclevel <> $player->mediclevel) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['medic'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $player->mediclevel . ") " . $lang['to'] . " (" . $mediclevel . ")", 2);
-                        if ($donatorlvl <> $player->donatorlvl) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['donator'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $player->donatorlvl . ") " . $lang['to'] . " (" . $donatorlvl . ")", 2);
-                        if ($cash <> $player->cash) logAction($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['cash'] . " " . $lang['from'] . " '" . $player->cash . "' " . $lang['to'] . " (" . $cash . "''", 2);
+                        if ($coplevel <> $player->coplevel) $dao->logAdd($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['cop'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $player->coplevel . ") " . $lang['to'] . " (" . $coplevel . ")", 2);
+                        if ($mediclevel <> $player->mediclevel) $dao->logAdd($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['medic'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $player->mediclevel . ") " . $lang['to'] . " (" . $mediclevel . ")", 2);
+                        if ($donatorlvl <> $player->donatorlvl) $dao->logAdd($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['donator'] . " " . $lang['level'] . " " . $lang['from'] . " (" . $player->donatorlvl . ") " . $lang['to'] . " (" . $donatorlvl . ")", 2);
+                        if ($cash <> $player->cash) $dao->logAdd($_SESSION['user_name'], $lang['edited'] . " " . nameID($player->playerid, $db_link) . "(" . $player->playerid . ") " . $lang['cash'] . " " . $lang['from'] . " '" . $player->cash . "' " . $lang['to'] . " (" . $cash . "''", 2);
 
                         $update = "UPDATE `players` SET coplevel = '" . $coplevel . "', mediclevel = '" . $mediclevel . "', donatorlvl = '" . $donatorlvl . "', cash = '" . $cash . "', bankacc = '" . $bankacc . "', arrested = '" . $arrested . "' WHERE `uid` = '" . $uID . "' ";
                         $result_of_query = $db_link->query($update);
-                        logAction($_SESSION['user_name'], $lang['edited'] . ' ' . nameID($player->playerid, $db_link) . '(' . $player->playerid . ') ' . $lang['levels'], 2);
+                        $dao->logAdd($_SESSION['user_name'], $lang['edited'] . ' ' . nameID($player->playerid, $db_link) . '(' . $player->playerid . ') ' . $lang['levels'], 2);
                         message($lang['edited'] . ' ' . nameID($player->playerid, $db_link));
                     } else {
                         message("ERROR");
@@ -109,7 +109,7 @@ if (isset($_POST["editType"])) {
                     $mediclevel = intval($_POST["player_medlvl"]);
                     $update = "UPDATE `players` SET coplevel = '" . $coplevel . "', mediclevel = '" . $mediclevel . "' WHERE `uid` = '" . $uID . "' ";
                     $result_of_query = $db_link->query($update);
-                    logAction($_SESSION['user_name'], $lang['edited'] . ' ' . nameID($player->playerid, $db_link) . '(' . $player->playerid . ') ' . $lang['levels'], 2);
+                    $dao->logAdd($_SESSION['user_name'], $lang['edited'] . ' ' . nameID($player->playerid, $db_link) . '(' . $player->playerid . ') ' . $lang['levels'], 2);
                     message($lang['edited'] . ' ' . nameID($player->playerid, $db_link));
                 }
                 break;
@@ -117,7 +117,7 @@ if (isset($_POST["editType"])) {
                 $note_text = $_POST["note_text"];
                 $update = "INSERT INTO `notes` (`uid`, `staff_name`, `note_text`, `note_updated`) VALUES ('" . $uID . "', '" . $_SESSION['user_name'] . "', '" . $note_text . "', CURRENT_TIMESTAMP); ";
                 $result_of_query = $db_link->query($update);
-                logAction($_SESSION['user_name'], $lang['edited'] . ' ' . nameID($player->playerid, $db_link) . '(' . $player->playerid . ') ' . $lang['notes'], 1);
+                $dao->logAdd($_SESSION['user_name'], $lang['edited'] . ' ' . nameID($player->playerid, $db_link) . '(' . $player->playerid . ') ' . $lang['notes'], 1);
                 message($lang['edited'] . ' ' . $lang['notes']);
                 break;
         }

@@ -33,7 +33,7 @@ elseif (isset($_POST['edit'])) {
                 }
                 $result_of_query = $db_connection->query($sql);
             } else message($lang['expired']);
-        } else logAction($_SESSION['user_name'], $lang['failedUpdate'] . ' ' . $lang['gsq'], 3);
+        } else $dao->logAdd($_SESSION['user_name'], $lang['failedUpdate'] . ' ' . $lang['gsq'], 3);
     }
 }
     $sql = "SELECT * FROM `servers` WHERE `dbid`='" . $id . "';";
