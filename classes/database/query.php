@@ -10,12 +10,18 @@ class query
     public $user = 'cyberby1_testdb';
     public $password = 'q3S5[6nQGt}1';
 
-    public function __construct () {
-        $this->dbh = new PDO("mysql:dbname=$this->dbname;host=$this->host", $this->user, $this->password);
-        $this->sh = new PDO("mysql:dbname=$this->dbname;host=$this->host", $this->user, $this->password);
+    public function __construct($name, $host, $user, $password, $dbid = null)
+    {
+        $this->dbh = new PDO("mysql:dbname=$name;host=$host", $user, $password);
+        if (isset($dbid)) {
+            $server = $this->servers($dbid);
+
+            $this->sh = new PDO("mysql:dbname=$name;host=$host", $user, $password);
+        }
     }
-    
-    public function login ($user) {
+
+    public function login($user)
+    {
         try {
             $sql = $this->dbh->prepare("SELECT user_name, user_email, user_level, user_profile, permissions,
             user_password_hash, user_id, playerid, twoFactor, token FROM users WHERE user_name = :user OR user_email = :user OR playerid = :user;");
@@ -27,7 +33,8 @@ class query
         }
     }
 
-    public function steamPlayer ($pid) {
+    public function steamPlayer($pid)
+    {
         $sql = $this->dbh->prepare("SELECT uid FROM players WHERE playerid = :pid;");
         $sql->bindParam(':pid', $pid, PDO::PARAM_STR);
         $sql->execute();
@@ -311,16 +318,23 @@ class query
         }
     }
 
-    public function editUser($dbID, $host, $user, $pass, $name)
+    public function editUser($uID, $email, $pid, $level = null, $permissions = null)
     {
         try {
-            $sql = $this->dbh->prepare("UPDATE user SET sql_host = :host, sql_user = :user, sql_pass = :pass, sql_name = :name WHERE dbid = :dbID;");
-            $sql->bindValue(':dbID', $dbID, PDO::PARAM_INT);
-            $sql->bindValue(':host', $host, PDO::PARAM_STR);
-            $sql->bindValue(':user', $user, PDO::PARAM_STR);
-            $sql->bindValue(':pass', $pass, PDO::PARAM_STR);
-            $sql->bindValue(':name', $name, PDO::PARAM_STR);
-            $sql->execute();
+            if (isset($level) && isset($permissions)) {
+                $sql = $this->dbh->prepare("UPDATE users SET user_email = :email, playerid = :pid, user_level = :level, permissions = :permissions WHERE user_id = :uID;");
+                $sql->bindValue(':uID', $uID, PDO::PARAM_INT);
+                $sql->bindValue(':email', $email, PDO::PARAM_STR);
+                $sql->bindValue(':pid', $pid, PDO::PARAM_STR);
+                $sql->bindValue(':level', $level, PDO::PARAM_INT);
+                $sql->bindValue(':permissions', $permissions, PDO::PARAM_STR);
+                $sql->execute();
+            } else {
+                $sql = $this->dbh->prepare("UPDATE users SET user_email = :email, playerid = :pid WHERE user_id = :uID;");
+                $sql->bindValue(':uID', $uID, PDO::PARAM_INT);
+                $sql->bindValue(':email', $email, PDO::PARAM_STR);
+                $sql->bindValue(':pid', $pid, PDO::PARAM_STR);
+            }
         } catch (Exception $e) {
             return $e;
         }
@@ -354,6 +368,18 @@ class query
             return $e;
         }
         return true;
+    }
+
+    public function wanted($uID)
+    {
+        try {
+            $sql = $this->sh->prepare("SELECT wantedCrimes FROM wanted WHERE wantedID = :uID;");
+            $sql->bindValue(':uID', $uID, PDO::PARAM_INT);
+            $sql->execute();
+        } catch (Exception $e) {
+            return $e;
+        }
+        return $sql->fetchAll(PDO::FETCH_NUM);
     }
 
     public function twoFactorNew($uid, $token = null, $twoFactor = null, $backup = null)
@@ -422,7 +448,7 @@ class query
         return $sql->fetchAll(PDO::FETCH_NUM);
     }
 
-    public function items($uid,$items)
+    public function items($uid, $items)
     {
         try {
             $sql = $this->dbh->prepare("UPDATE users SET items = :items WHERE user_id = :uid;");

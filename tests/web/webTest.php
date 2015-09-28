@@ -42,7 +42,7 @@ class webTest extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     public function testLogin () {
-        $this->login() ///todo finish login system
+        $this->login(); ///todo finish login system
     }
 
     public function testEditPlayer()

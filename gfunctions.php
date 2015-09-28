@@ -6,46 +6,6 @@ function select($val, $row)
     }
 }
 
-function nameID($pId, $db_link)
-{
-    $sql = "SELECT `name` FROM `players` WHERE `playerid` LIKE '" . $pId . "' ";
-    $result_of_query = $db_link->query($sql);
-
-    if ($result_of_query->num_rows > 0) {
-        while ($row = mysqli_fetch_assoc($result_of_query)) {
-            return $row['name'];
-        }
-    } else {
-        return $pId;
-    }
-}
-
-function uID($pId, $db_link)
-{
-    $sql = "SELECT `uid` FROM `players` WHERE `playerid` = '" . $pId . "' ";
-    $result_of_query = $db_link->query($sql);
-    if ($result_of_query->num_rows > 0) {
-        while ($row = mysqli_fetch_assoc($result_of_query)) {
-            return $row['uid'];
-        }
-    } else {
-        return $pId;
-    }
-}
-
-function uIDname($uID, $db_link)
-{
-    $sql = "SELECT `name` FROM `players` WHERE `uid` = '" . $uID . "' ";
-    $result_of_query = $db_link->query($sql);
-    if ($result_of_query->num_rows > 0) {
-        while ($row = mysqli_fetch_assoc($result_of_query)) {
-            return $row['name'];
-        }
-    } else {
-        return $uID;
-    }
-}
-
 function IDname($name, $db_link)
 {
     $sql = "SELECT `name`,`playerid` FROM `players` WHERE `name` LIKE '%" . $name . "%' ";

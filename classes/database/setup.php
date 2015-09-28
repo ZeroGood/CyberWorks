@@ -2,10 +2,10 @@
 
 class setup
 {
-    public $dbname = 'cyberby1_testdb';
-    public $host = '191.101.48.14';
-    public $user = 'cyberby1_testdb';
-    public $password = 'q3S5[6nQGt}1';
+    public function connect($host, $user, $password, $name) {
+        $host = $this->sqlHost($host);
+        return new PDO("mysql:dbname=$name;host=$host", $user, $password);
+    }
 
     public function sqlHost ($host) {
         if (strpos($host, "http://")) {
@@ -18,11 +18,6 @@ class setup
         return $ip;
     }
 
-    public function connect($host, $user, $password, $name) {
-        $host = $this->sqlHost($host);
-        return new PDO("mysql:dbname=$name;host=$host", $user, $password);
-    }
-
     public function addSettings($settings) {
         try {
             return true;
@@ -30,7 +25,6 @@ class setup
             return $e;
         }
     }
-
 
     public function base($uri = null, $host = null)
     {
@@ -61,8 +55,7 @@ php_value file_get_contents 1';
         file_put_contents('.htaccess', $hta);
     }
 
-    public function makeTables () {
-        //$dbh = $this->connect();
+    public function dropTables () {
         $sql = $dbh->prepare("DROP TABLE IF EXISTS users");
         $sql->execute();
         $sql = $dbh->prepare("DROP TABLE IF EXISTS notes");
@@ -73,51 +66,6 @@ php_value file_get_contents 1';
         $sql->execute();
         $sql = $dbh->prepare("DROP TABLE IF EXISTS logs");
         $sql->execute();
-
-        $sql = $dbh->prepare("CREATE TABLE IF NOT EXISTS `users` (
-      `user_id` int(11) NOT NULL primary key,
-      `user_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-      `user_password_hash` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-      `user_email` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-      `playerid` varchar(17) COLLATE utf8_unicode_ci DEFAULT NULL,
-      `user_level` int(1) NOT NULL DEFAULT '1',
-      `permissions` text COLLATE utf8_unicode_ci NOT NULL,
-      `user_profile` varchar(255) NOT NULL,
-      `items` int(2) NULL,
-      `twoFactor` VARCHAR(25) NULL,
-      `backup` VARCHAR(255) NULL,
-      `token` VARCHAR(64) NULL
-    ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;");
-        $sql->execute();
-
-
-
-        $sql = $dbh->prepare("CREATE TABLE IF NOT EXISTS `notes` (
-    	  `note_id` INT(11) NOT NULL AUTO_INCREMENT,
-    	  `uid` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-    	  `staff_name` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-    	  `note_text` VARCHAR(255) NOT NULL,
-    	  `note_updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    	  PRIMARY KEY (`note_id`),
-    	  UNIQUE KEY `note_id` (`note_id`)
-        ) ENGINE=InnoDB  DEFAULT CHARSET=utf8_unicode_ci AUTO_INCREMENT=1;");
-        $sql->execute();
-
-
-        $sql = $dbh->prepare("CREATE TABLE IF NOT EXISTS `db` (
-        `dbid` INT(11) NOT NULL AUTO_INCREMENT,
-        `type` VARCHAR(64) NOT NULL,
-        `sql_host` VARCHAR(64) NOT NULL,
-        `sql_user` VARCHAR(64) NOT NULL,
-        `sql_pass` VARCHAR(255) NOT NULL,
-        `sql_name` VARCHAR(64) NOT NULL,
-    	PRIMARY KEY (dbid),
-    	UNIQUE KEY `dbid` (`dbid`)
-        ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;");
-        $sql->execute();
-//todo: add to table
-
-        //todo:server stuff
     }
 
     public function makeSettings () {

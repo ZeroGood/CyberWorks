@@ -1,29 +1,13 @@
 <?php
 if (isset($_POST['email'])) {
     if (formtoken::validateToken($_POST)) {
-        $email = $_POST['email'];
-        $user_pic = $_POST['user_pic'];
-        $pId = $_POST['player_id'];
-        $_SESSION['user_profile'] = $user_pic;
-        $sql = "UPDATE `users` SET `user_email`= '" . $email . "',`playerid`= '" . $pId . "', `user_profile`= '" . $user_pic . "'WHERE `user_id` = '" . $_SESSION['user_id'] . "' ";
-        $result_of_query = $db_connection->query($sql);
+        $dao->editUser($_SESSION['user_id'],$_POST['email'],$_POST['player_id']);
     } else {
         message($lang['expired']);
     }
 }
-if (isset($_POST['user_password'])) {
-    if (formtoken::validateToken($_POST)) {
-        $sql = "SELECT `user_password_hash` FROM `users` WHERE `user_id` = '" . $_SESSION['user_id'] . "';";
-        $result = $db_connection->query($sql)->fetch_object();
-        if ($_POST['user_password'] == $_POST['user_password_again'] && password_verify($_POST['current_password'],$result->user_password_hash)) {
-            $sql = "UPDATE `users` SET `user_password_hash`= '" . password_hash($_POST['user_password'], PASSWORD_DEFAULT) . "' WHERE `user_id` = '" . $_SESSION['user_id'] . "';";
-            $result_of_query = $db_connection->query($sql);
-            message($lang['passChanged']);
-        }
-    } else {
-        message($lang['expired']);
-    }
-}
+//$actions->changePass();
+
 ?>
 
 <div class="row">
@@ -37,18 +21,11 @@ if (isset($_POST['user_password'])) {
 
 <h2 class="form-login-heading"><?php echo $_SESSION['user_name']; ?></h2>
 <?php
-$sql = "SELECT * FROM `users` WHERE `user_name` ='" . $_SESSION['user_name'] . "';";
-$profile = $db_connection->query($sql)->fetch_object();
+$profile = $dao->users($_SESSION['user_id']);
 
 if (!isset($_SESSION['profile_link'])) {
-    if (isset($_SESSION['user_email']) && $settings['gravatar']) {
-        echo '<a href="' . $settings['url'] . 'profile">';
-        echo '<img src="' . get_gravatar($_SESSION['user_email'],64,'retro') . '" class="img-circle" width="60" height="60"></a>'.$lang['gravatarProfile'];
-    } else {
-        echo '<a href="' . $settings['url'] . 'profile">';
-        echo '<img src="' . $settings['url'] . 'assets/img/profile/' . $_SESSION['user_profile'] . '.jpg"';
-        echo 'class="img-circle" width="60" height="60"></a>'.$lang['themeProfile'];
-    }
+    echo '<a href="' . $settings['url'] . 'profile">';
+    echo '<img src="' . get_gravatar($_SESSION['user_email'],64,'retro') . '" class="img-circle" width="60" height="60"></a>'.$lang['gravatarProfile'];
 } else {
     echo '<a href="' . $_SESSION['profile_link'] . '" target="_blank">';
     echo '<img src="' . $_SESSION['user_profile'] . '"';
@@ -58,19 +35,13 @@ if (!isset($_SESSION['profile_link'])) {
 echo '<br><form method="post" action="profile" name="profileEdit" id="profileEdit">';
 echo formtoken::getField();
 $userPid = $profile->playerid;
-echo "<div class='form-group'>" . $lang['emailAdd'] . ": <input class='form-control' id='email' type='email' name='email' value='" . $profile->user_email . "'></div>";
-echo "<h5>" . $lang['rank'] . ": <b>" . $settings['ranks'][$profile->user_level] . "</b> (" . $profile->user_level . ")</h5>";
+echo "<div class='form-group'>" . $lang['emailAdd'] . ": <input class='form-control' id='email' type='email' name='email' value='" . $profile['user_email'] . "'></div>";
+echo "<h5>" . $lang['rank'] . ": <b>" . $settings['ranks'][$profile['user_level']] . "</b> (" . $profile['user_level'] . ")</h5>";
 echo "<div class='form-group'>" . $lang['picture'] . ": ";
 
-echo "<select id='user_pic' name='user_pic' class='form-control'>";
-for ($icon = 1; $icon < 6; $icon++) {
-    echo '<option value="' . $icon . '" ' . select($icon, $profile->user_profile) . '>' . $settings['names'][$icon] . '</option>';
-}
-echo "</select></div>";
-
-echo "<div class='form-group'>" . $lang['playerID'] . ": <input class='form-control' id='player_id' type='number' name='player_id' value='" . $profile->playerid . "'>";
+echo "<div class='form-group'>" . $lang['playerID'] . ": <input class='form-control' id='player_id' type='number' name='player_id' value='" . $profile['playerid'] . "'>";
 echo "<p id='steam'></p>";
-$sql = "SELECT `uid`,`playerid` FROM `players` WHERE `playerid` = '" . $profile->playerid . "' ";
+$sql = "SELECT `uid`,`playerid` FROM `players` WHERE `playerid` = '" . $profile['playerid'] . "' ";
 $result = $db_connection->query($sql);
 
 if ($result->num_rows > 0) {
@@ -109,20 +80,6 @@ echo "</form>";
                         validators: {
                             notEmpty: {
                             }
-                            <?php if (isset($settings['mailgunAPI'])) { ?>,
-                                remote: {
-                                type: 'GET',
-                                url: 'https://api.mailgun.net/v2/address/validate?callback=?',
-                                crossDomain: true,
-                                name: 'address',
-                                data: {
-                                    api_key: '<?php echo $settings['mailgunAPI'] ?>'
-                                },
-                                dataType: 'jsonp',
-                                validKey: 'is_valid',
-                                message: 'The email is not valid'
-                                }
-                            <?php } ?>
                         }
                     },
                     player_id: {

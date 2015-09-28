@@ -6,16 +6,9 @@ php:
   - 5.5
   - 5.6
   - 7.0
-env:
-  global:
-    - secure: fGDC03u08QeSnn9moSj1dHOjy8+vnWroMh4i34HjDFj7t0OI3mkdvDZP59BoRT/RePG0727pOGwESRp+3lJWwajXUq2JxOekbL2/5JSec98l9Uq3dkTTc2gBe8axw48LuzpTTjDGLyim0QtIZP8WTJc0iCZPjQtJSxuqDNc7/9hizPpx6Qm3VJqM+HEpGbFd0vjLb6GCqrgkMEZ/Ki+UFhE+BQXjFNkY/hTHWIpI2eIRu7lH7nxUSFkhfFZOB0ARlxuYJCX6jO9S4VEOgPLag+drM+IIyoTIzt3OM6BJ4fZMP2oU037z+lRflFEM7BtqoYLa42EGbu6ZC4K363Gh3E3WA6HanUIuPk6MNKKP8Pul1R2DEPLYVXwQw0iUC2tmCFMneqwfLp5yIMIQxIGSzw9Clwgqc2UC5o7F1hNtbFB2Ddh6zTfAQV/oboABSJujnuKEH4ZtayB5L9SsVkjs/KbkRaDSi4CAnIpeEjUPOqgWFnN5yKwdfOFO+hQ71no0xTAG5iSYgi+g9OodTwNtFBI5L/eUgl2uXk8wxGKZdUokVa2Mj/NmCb2Wt3Uj2mJlczbbx8SULhwhkFGvIJUfmQDDJC4HizvR/7BEnEnDd+OC3NHGs2xddxSaQC1WgTiI/LjVbjstTNxgcKY0/g9yqjdC8pQ95+pvKU0biwhFkfw=
-    - secure: CUYlnSibGTyQ88mwVPe+bNahjbYW3rstC27b3ZRr7PCS5J14WjXUYyXofnb4dMLFf5QMgh67RLs5Tk9bM73vrJXY8dSU07UyitzW6i/WCDzH7R6VJDqXbmbixKHF9K943yQjqzhpQEAKlDuR046zyEFsFbnpjX5TH97v2RQRt1MZ9Y4ZTJYogoXbJzXfyNBUzFhcl7nNCW4TnkkYQQROHLcJQASle5pHkrPx2HeXwGv5k0IEGuR2lVto/+HH2FxlEo2VHSASMb7MpuTclp+nA2ALy58Pe5CxKqujDHvYms3w3GDSXxFlcZeqBKZXACDGPws1Pl+vnpsfx9L7aDJM9X+Cu5+sbdsYT43FznyRMPu9Gn9+a9w1/bzdYnuOQparPsi/vZNRhVZmNdSW0K5NhZfxWB/Omh+xo57etrOlVGnwtFXJ03j4NIYujPy4z+JmF3BBta9w7VDExRoyRdkNII5iLAj9e5p3ZbHoUfpz8snypZgEm8tZLOLI15eb2ExFr7lHtaeYlsQ2r/S40Ge2u7pFUG1FU7XqMz7ZiJxY+ozTQw4JY5Jn/g1MFsc+jQ6IGQQVXrrtWNDdoC6IgR7RHW9gDIW72l0FPtx25Qn6pMZQnNO03QyOOToJrMobNPBngRKckFFfln7Irj7wm22D8XSJMY94Gi13bykJaQlFmZ8=
-
 
 before_script:
-  - mysql -e "create database IF NOT EXISTS hello_world_test;" -uroot; fi
+  - mysql -e "create database IF NOT EXISTS test_db;" -uroot; fi
+  - composer update
 
 script: phpunit --configuration phpunit.xml --coverage-text
-
-addons:
-  sauce_connect: true
