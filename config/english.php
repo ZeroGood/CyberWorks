@@ -3,10 +3,10 @@ $lang = array();
 
 /*
 ------------------------------------
-	Language: English
-    Version: 0.2
-    From: 05.07.2015
-    Author: CyberByte
+	Language: French
+    Version: 0.1(alpha)
+    From: 08/05/2016
+    Author: CyberByte | Translate by ZeroGood
 ------------------------------------
 
 ------------------------------------
@@ -14,43 +14,43 @@ $lang = array();
 ------------------------------------
 */
 
-$lang['welcome'] = 'Welcome';
-$lang['players'] = 'Players';
-$lang['player'] = 'Player';
-$lang['vehicles'] = 'Vehicles';
-$lang['vehicle'] = 'Vehicle';
-$lang['houses'] = 'Houses';
-$lang['house'] = 'House';
+$lang['welcome'] = 'Bienvenue';
+$lang['players'] = 'Joueurs';
+$lang['player'] = 'Joueur';
+$lang['vehicles'] = 'Vehicules';
+$lang['vehicle'] = 'Vehicule';
+$lang['houses'] = 'Maisons';
+$lang['house'] = 'Maison';
 $lang['gangs'] = 'Gangs';
 $lang['gang'] = 'Gang';
-$lang['wanted'] = 'Wanted';
+$lang['wanted'] = 'Avis de recherche';
 $lang['staff'] = 'Staff';
-$lang['overview'] = 'Overview';
-$lang['search'] = 'Search';
-$lang['edit'] = 'Edit';
-$lang['editing'] = 'Editing';
-$lang['editor'] = 'Editor';
-$lang['members'] = 'Members';
-$lang['subChange'] = 'Submit Changes';
-$lang['quickLook'] = 'Quick Look';
-$lang['curPlayers'] = 'Current Players';
-$lang['statOver'] = 'Statistics Overview';
-$lang['viewAll'] = 'View All';
-$lang['subChanges'] = 'Update';
-$lang['yes'] = 'Yes';
-$lang['no'] = 'No';
-$lang['car'] = 'Car';
-$lang['air'] = 'Air';
+$lang['overview'] = 'Vue globale';
+$lang['search'] = 'Rechercher';
+$lang['edit'] = 'Editer';
+$lang['editing'] = 'Edition';
+$lang['editor'] = 'Editeur';
+$lang['members'] = 'Membres';
+$lang['subChange'] = 'Soumettre les changements';
+$lang['quickLook'] = 'Aperçu';
+$lang['curPlayers'] = 'Joueurs actuels';
+$lang['statOver'] = 'Aperçu des statistiques';
+$lang['viewAll'] = 'Voir tout';
+$lang['subChanges'] = 'Valider';
+$lang['yes'] = 'Oui';
+$lang['no'] = 'Non';
+$lang['car'] = 'Voiture';
+$lang['air'] = 'Avion';
 $lang['ban'] = 'Ban';
-$lang['ship'] = 'Ship';
-$lang['store'] = 'Store';
-$lang['add'] = 'Add';
-$lang['new'] = 'New';
+$lang['ship'] = 'Bateau';
+$lang['store'] = 'Magasin';
+$lang['add'] = 'Ajouter';
+$lang['new'] = 'Nouveau';
 $lang['note'] = 'Note';
 $lang['id'] = 'ID';
-$lang['uid'] = 'User ID';
+$lang['uid'] = 'Utilisateur ID';
 $lang['page'] = 'Page';
-$lang['not'] = 'Not';
+$lang['not'] = 'Ne pas';
 
 /*
 -----------------
@@ -58,34 +58,34 @@ $lang['not'] = 'Not';
 -----------------
 */
 
-$lang['error'] = 'Error';
+$lang['error'] = 'Erreur';
 $lang['404'] = '404';
-$lang['dbError'] = 'Database connection problem';
-$lang['noPerm'] = 'Sorry you do not have permission to view this page';
-$lang['noHouse'] = 'No Houses';
-$lang['banned'] = 'Login Failed Reason: Banned';
-$lang['noGang'] = 'No Gangs';
-$lang['noID'] = 'No ID';
-$lang['noRec'] = 'No records found';
-$lang['noRes'] = 'No records found';
-$lang['noNotes'] = 'No notes for this player';
-$lang['noVeh'] = 'No Vehicles';
-$lang['pluginNF'] = 'Plugin Not Found';
-$lang['noPlayer'] = 'Player cannot be found';
-$lang['fillAll'] = 'Please fill everything in';
-$lang['noLang'] = 'Language not allowed';
-$lang['incorrectPass'] = 'Incorrect Password';
-$lang['failPID'] = 'Player ID not found on steam';
-$lang['matchPass'] = 'The passwords must match';
-$lang['notverified'] = 'Server Verification Failed';
-$lang['noPlayers'] = 'No Players are online';
-$lang['cannotConnect'] = 'Cannot Connect to server';
-$lang['noCrimes'] = 'No Crimes';
-$lang['selDB'] = 'Please Select A Database';
-$lang['noServer'] = 'No Server Found';
-$lang['noLic'] = 'No Licenses';
-$lang['noPlugin'] = 'No Plugin Folder';
-$lang['nodb'] = 'No databases setup';
+$lang['dbError'] = 'Problème de connexion a la base de donnée';
+$lang['noPerm'] = 'Désolé, vous n avez pas la permission de voir cette page';
+$lang['noHouse'] = 'Aucune maison';
+$lang['banned'] = 'Connexion refusée, Raison: Banni';
+$lang['noGang'] = 'Aucun Gangs';
+$lang['noID'] = 'Aucun ID';
+$lang['noRec'] = 'Aucun enregistrement trouvé';
+$lang['noRes'] = 'Aucun enregistrement trouvé';
+$lang['noNotes'] = 'Aucune notes pour ce joueur';
+$lang['noVeh'] = 'Aucun Vehicules';
+$lang['pluginNF'] = 'Plugin introuvable';
+$lang['noPlayer'] = 'Le joueur ne peut pas être trouvé';
+$lang['fillAll'] = 'Remplissez tout le formulaire';
+$lang['noLang'] = 'Langue non admis';
+$lang['incorrectPass'] = 'Mot de passe incorrect';
+$lang['failPID'] = 'ID du joueur est introuvable sur steam';
+$lang['matchPass'] = 'Les mots de passe doivent correspondre';
+$lang['notverified'] = 'Vérification du serveur a échoué';
+$lang['noPlayers'] = 'Aucun joueurs en ligne';
+$lang['cannotConnect'] = 'Ne peut pas se connecter au serveur';
+$lang['noCrimes'] = 'Aucun Crimes';
+$lang['selDB'] = 'Sélectionnez une base de donnée';
+$lang['noServer'] = 'Aucun serveur trouvé';
+$lang['noLic'] = 'Aucun permis';
+$lang['noPlugin'] = 'Aucun dossier de Plugin';
+$lang['nodb'] = 'Aucune configuration des bases de données';
 
 /*
 ------------------
@@ -93,16 +93,16 @@ $lang['nodb'] = 'No databases setup';
 ------------------
 */
 
-$lang['navProfile'] = 'Profile';
+$lang['navProfile'] = 'Profil';
 $lang['navAdmin'] = 'Admin';
-$lang['navNewUser'] = 'Add New User';
-$lang['navDashboard'] = 'Dashboard';
-$lang['navLogOut'] = 'Log Out';
-$lang['first'] = 'First';
-$lang['previous'] = 'Previous';
-$lang['next'] = 'Next';
-$lang['last'] = 'Last';
-$lang['editPlayer'] = 'Edit Player';
+$lang['navNewUser'] = 'Ajouter un nouveau utilisateur';
+$lang['navDashboard'] = 'Tableau de bord';
+$lang['navLogOut'] = 'Se déconnecter';
+$lang['first'] = 'Première';
+$lang['previous'] = 'Précédente';
+$lang['next'] = 'Suivante';
+$lang['last'] = 'Dernière';
+$lang['editPlayer'] = 'Modifier le joueur';
 
 /*
 -------------------------------
@@ -110,39 +110,39 @@ $lang['editPlayer'] = 'Edit Player';
 -------------------------------
 */
 
-$lang['staffName'] = 'Staff Name';
-$lang['emailAdd'] = 'Email Address';
-$lang['rank'] = 'Rank';
-$lang['name'] = 'Name';
-$lang['wantList'] = 'Wanted List';
-$lang['aliases'] = 'Aliases';
-$lang['owner'] = 'Owner';
-$lang['maxMembers'] = 'Max Members';
-$lang['members'] = 'Members';
-$lang['bank'] = 'Bank';
-$lang['cash'] = 'Cash';
-$lang['cop'] = 'Cop';
+$lang['staffName'] = 'Nom du staff';
+$lang['emailAdd'] = 'Adresse email';
+$lang['rank'] = 'Rang';
+$lang['name'] = 'Nom';
+$lang['wantList'] = 'Liste des avis de recherche';
+$lang['aliases'] = 'Alias';
+$lang['owner'] = 'Propriétaire';
+$lang['maxMembers'] = 'Membres maximum';
+$lang['members'] = 'Membres';
+$lang['bank'] = 'Banque';
+$lang['cash'] = 'Liquide';
+$lang['cop'] = 'Policier';
 $lang['police'] = 'Police';
-$lang['medic'] = 'Medic';
-$lang['medics'] = 'Medics';
-$lang['civil'] = 'Civilian';
-$lang['civ'] = 'Civ';
+$lang['medic'] = 'Medecin';
+$lang['medics'] = 'Hopital';
+$lang['civil'] = 'Civiles';
+$lang['civ'] = 'Civil';
 $lang['side'] = 'Side';
 $lang['admin'] = 'Admin';
-$lang['donator'] = 'Donator';
-$lang['licenses'] = 'Licenses';
-$lang['gear'] = 'Gear';
-$lang['playerID'] = 'Player ID';
+$lang['donator'] = 'Donateur';
+$lang['licenses'] = 'Permis';
+$lang['gear'] = 'Equipement';
+$lang['playerID'] = 'Joueur ID';
 $lang['GUID'] = 'GUID';
 $lang['position'] = 'Position';
-$lang['owned'] = 'Owned';
-$lang['inventory'] = 'Inventory';
+$lang['owned'] = 'Propriété';
+$lang['inventory'] = 'Inventaire';
 $lang['containers'] = 'Containers';
 $lang['class'] = 'Class';
 $lang['type'] = 'Type';
 $lang['plate'] = 'Plate';
-$lang['alive'] = 'Alive';
-$lang['colour'] = 'Colour';
+$lang['alive'] = 'Vivant';
+$lang['colour'] = 'Couleur';
 $lang['uid'] = 'uID';
 
 /*
@@ -151,16 +151,16 @@ $lang['uid'] = 'uID';
 ---------------------------
 */
 
-$lang['pluginstore'] = 'Plugin Store';
-$lang['visitSite'] = 'Visit Site';
-$lang['installed'] = 'Installed';
-$lang['updateAvalible'] = 'Update Available';
-$lang['update'] = 'Update';
-$lang['install'] = 'Install';
-$lang['active'] = 'Active';
-$lang['activate'] = 'Activate';
-$lang['deactivate'] = 'Deactivate';
-$lang['delete'] = 'Delete';
+$lang['pluginstore'] = 'Magasin de plugin';
+$lang['visitSite'] = 'Visiter le siteweb';
+$lang['installed'] = 'Installé';
+$lang['updateAvalible'] = 'Une mise à jour est disponible';
+$lang['update'] = 'Mettre à jour';
+$lang['install'] = 'Installer';
+$lang['active'] = 'Activer';
+$lang['activate'] = 'Activer';
+$lang['deactivate'] = 'Desactiver';
+$lang['delete'] = 'Supprimer';
 $lang['plugin'] = 'Plugin';
 
 /*
@@ -170,7 +170,7 @@ $lang['plugin'] = 'Plugin';
 */
 
 $lang['wID'] = 'Wanted ID';
-$lang['bounty'] = 'Bounty';
+$lang['bounty'] = 'Prime';
 $lang['crimes'] = 'Crimes';
 
 /*
@@ -180,16 +180,16 @@ $lang['crimes'] = 'Crimes';
 */
 
 $lang['key'] = 'Key';
-$lang['registration'] = 'Allow user registration';
-$lang['steamlogin'] = 'Allow login with steam';
-$lang['useNews'] = 'Use CyberByte News Feed';
+$lang['registration'] = 'Autoriser les inscriptions des utilisateurs';
+$lang['steamlogin'] = 'Autoriser la connexion via steam';
+$lang['useNews'] = 'Utiliser CyberByte News RSS';
 $lang['panel'] = 'Panel';
-$lang['useVAC'] = 'Check VAC Bans';
-$lang['useCommunityBans'] = 'Check Community Bans';
-$lang['itemsPP'] = 'Items Per Page';
-$lang['settings'] = 'Settings';
-$lang['allowLang'] = 'Allow other languages';
-$lang['community'] = 'Community Name';
+$lang['useVAC'] = 'Verifier VAC Bans';
+$lang['useCommunityBans'] = 'Verifier les bans communautaires';
+$lang['itemsPP'] = 'Objets par page';
+$lang['settings'] = 'Options';
+$lang['allowLang'] = 'Autoriser autres langues';
+$lang['community'] = 'Nom communauté';
 
 /*
 --------------------------
@@ -197,11 +197,11 @@ $lang['community'] = 'Community Name';
 --------------------------
 */
 
-$lang['use'] = 'Use';
+$lang['use'] = 'Utiliser';
 $lang['gsq'] = 'Game Server Query';
-$lang['gsqa'] = 'Address';
+$lang['gsqa'] = 'Addresse IP';
 $lang['gsqp'] = 'Port';
-$lang['gsrc'] = 'Rcon Password';
+$lang['gsrc'] = 'Mot de passe Rcon';
 
 /*
 --------------------------
@@ -210,39 +210,39 @@ $lang['gsrc'] = 'Rcon Password';
 */
 
 $lang['perms'] = "Permissions";
-$lang['perm_view'] = "View Permissions";
-$lang['perm_edit'] = "Edit Permissions";
-$lang['perm_view_staff'] = "View Staff";
-$lang['perm_view_houses'] = "View Houses";
-$lang['perm_view_gangs'] = "View Gangs";
-$lang['perm_view_wanted'] = "View Wanted";
-$lang['perm_view_steam'] = "View Steam";
-$lang['perm_view_player'] = "View Player";
-$lang['perm_view_licences'] = "View Licences";
-$lang['perm_view_messages'] = "View Messages";
-$lang['perm_view_notes'] = "View Notes";
-$lang['perm_view_curplayer'] = "View Current Players";
-$lang['perm_view_logs'] = "View Logs";
-$lang['perm_view_phone'] = "View Phone";
-$lang['perm_view_inventory'] = "View Inventory";
-$lang['perm_view_vehicles'] = "View Vehicles";
-$lang['perm_view_gamesrv'] = "View Game Servers";
-$lang['perm_view_gamesrvAdmin'] = "Administrate Game Servers";
-$lang['perm_edit_staff'] = "Edit Staff";
-$lang['perm_edit_update'] = "Edit Update";
-$lang['perm_edit_vehicles'] = "Edit Vehicles";
-$lang['perm_edit_houses'] = "Edit Houses";
-$lang['perm_edit_gangs'] = "Edit Gangs";
-$lang['perm_edit_wanted'] = "Edit Wanted";
-$lang['perm_edit_steam'] = "Edit Steam";
-$lang['perm_edit_player'] = "Edit Player";
-$lang['perm_edit_licences'] = "Edit Licences";
-$lang['perm_edit_inventory'] = "Edit Inventory";
-$lang['perm_edit_server'] = "Edit Server";
-$lang['perm_edit_notes'] = "Edit Notes";
-$lang['perm_edit_ranks'] = "Edit Ranks";
-$lang['perm_edit_bank'] = "Edit Bank/Cash";
-$lang['perm_edit_ignLVL'] = "Edit Ingame Admin/Donator";
+$lang['perm_view'] = "Voir Permissions";
+$lang['perm_edit'] = "Editer Permissions";
+$lang['perm_view_staff'] = "Voir Staff";
+$lang['perm_view_houses'] = "Voir Houses";
+$lang['perm_view_gangs'] = "Voir Gangs";
+$lang['perm_view_wanted'] = "Voir Avis de recherche";
+$lang['perm_view_steam'] = "Voir Steam";
+$lang['perm_view_player'] = "Voir Joueur";
+$lang['perm_view_licences'] = "Voir Permis";
+$lang['perm_view_messages'] = "Voir Messages";
+$lang['perm_view_notes'] = "Voir Notes";
+$lang['perm_view_curplayer'] = "Voir Joueurs actuels";
+$lang['perm_view_logs'] = "Voir Logs";
+$lang['perm_view_phone'] = "Voir Télephone";
+$lang['perm_view_inventory'] = "Voir Inventaire";
+$lang['perm_view_vehicles'] = "Voir Vehicules";
+$lang['perm_view_gamesrv'] = "Voir Serveur de jeux";
+$lang['perm_view_gamesrvAdmin'] = "Administration serveur de jeux";
+$lang['perm_edit_staff'] = "Modifier Staff";
+$lang['perm_edit_update'] = "Modifier Mise à jour";
+$lang['perm_edit_vehicles'] = "Modifier Vehicules";
+$lang['perm_edit_houses'] = "Modifier Maisons";
+$lang['perm_edit_gangs'] = "Modifier Gangs";
+$lang['perm_edit_wanted'] = "Modifier Avis de recherche";
+$lang['perm_edit_steam'] = "Modifier Steam";
+$lang['perm_edit_player'] = "Modifier Joueur";
+$lang['perm_edit_licences'] = "Modifier Permis";
+$lang['perm_edit_inventory'] = "Modifier Inventaire";
+$lang['perm_edit_server'] = "Modifier Serveur";
+$lang['perm_edit_notes'] = "Modifier Notes";
+$lang['perm_edit_ranks'] = "Modifier Rangs";
+$lang['perm_edit_bank'] = "Modifier Banque/Liquide";
+$lang['perm_edit_ignLVL'] = "Modifier IG Admin/Donateur";
 
 /*
 --------------------------
@@ -250,17 +250,17 @@ $lang['perm_edit_ignLVL'] = "Edit Ingame Admin/Donator";
 --------------------------
 */
 
-$lang['failedAccess'] = 'Failed to access';
+$lang['failedAccess'] = 'Accès refusé';
 $lang['logs'] = 'Logs';
 $lang['log'] = 'Log';
-$lang['searched'] = 'Searched';
-$lang['deleted'] = 'Deleted';
+$lang['searched'] = 'Cherché';
+$lang['deleted'] = 'Supprimé';
 $lang['id'] = 'ID';
-$lang['time'] = 'Time';
+$lang['time'] = 'Heure';
 $lang['action'] = 'Action';
 $lang['level'] = 'Level';
-$lang['from'] = 'from';
-$lang['to'] = 'to';
+$lang['from'] = 'de';
+$lang['to'] = 'a';
 
 /*
 --------------------------
@@ -268,103 +268,103 @@ $lang['to'] = 'to';
 --------------------------
 */
 
-$lang['setup'] = 'The database has now been setup';
-$lang['upgrade'] = 'The database has now been upgraded';
+$lang['setup'] = 'La base de données a été mis en place';
+$lang['upgrade'] = 'La base de données a été mis à jour';
 $lang['Kick'] = 'Kick';
-$lang['enterPass'] = 'Enter new password';
-$lang['password'] = 'Password';
-$lang['repeat'] = 'Repeat';
-$lang['login'] = 'Login';
-$lang['cancel'] = 'Cancel';
-$lang['picture'] = 'Picture';
-$lang['changePass'] = 'Change Password';
-$lang['gameServers'] = 'Game Servers';
+$lang['enterPass'] = 'Entré un nouveau mot de passe';
+$lang['password'] = 'Mot de passe';
+$lang['repeat'] = 'A nouveau';
+$lang['login'] = 'Se connecter';
+$lang['cancel'] = 'Annuler';
+$lang['picture'] = 'Image';
+$lang['changePass'] = 'Changer mot de passe';
+$lang['gameServers'] = 'Serveurs de jeux';
 $lang['blacklisted'] = 'Blacklisted';
 $lang['arrested'] = 'Arrested';
 $lang['finances'] = 'Finances';
-$lang['username'] = 'Username';
-$lang['view'] = 'View';
-$lang['updated'] = 'Updated';
-$lang['server'] = 'Server';
-$lang['user'] = 'User';
-$lang['database'] = 'Database';
-$lang['databases'] = 'Databases';
-$lang['edited'] = 'Edited';
+$lang['username'] = 'Pseudo';
+$lang['view'] = 'Voir';
+$lang['updated'] = 'Valider';
+$lang['server'] = 'Serveur';
+$lang['user'] = 'Utilisateur';
+$lang['database'] = 'Base de donnée';
+$lang['databases'] = 'Base de données';
+$lang['edited'] = 'Edité';
 $lang['levels'] = 'Levels';
 $lang['notes'] = 'Notes';
-$lang['users'] = 'Users';
-$lang['stored'] = 'Stored';
-$lang['close'] = 'Close';
-$land['updateMessage'] = 'An update is available';
-$lang['update'] = 'Update';
-$lang['news'] = 'News';
-$lang['in'] = 'in';
-$lang['host'] = 'Host';
-$lang['user'] = 'User';
-$lang['visited'] = 'visited';
+$lang['users'] = 'Utilisateurs';
+$lang['stored'] = 'Stocké';
+$lang['close'] = 'Fermer';
+$land['updateMessage'] = 'Une mise à jour est disponible';
+$lang['update'] = 'Mettre à jour';
+$lang['news'] = 'Nouvelles';
+$lang['in'] = 'dans';
+$lang['host'] = 'Host (IP)';
+$lang['user'] = 'Utilisateur';
+$lang['visited'] = 'visité';
 $lang['debug'] = 'Debug';
-$lang['language'] = 'Language';
-$lang['failedUpdate'] = 'Failed Update';
+$lang['language'] = 'Langue';
+$lang['failedUpdate'] = 'Echec de mise à jour';
 $lang['max'] = 'Max';
-$lang['current'] = 'Current';
-$lang['performance'] = 'Performance Mode';
-$lang['steamFound'] = 'Steam profile found:';
-$lang['vacban'] = 'VAC Banned';
-$lang['passreset'] = 'Password Reset';
-$lang['yourGang'] = 'Your Gang';
-$lang['topRich'] = 'Top Ten Richest Players';
-$lang['say'] = 'Say';
-$lang['execute'] = 'Execute';
-$lang['life'] = 'Life';
+$lang['current'] = 'Actuel';
+$lang['performance'] = 'Mode performance';
+$lang['steamFound'] = 'Profil steam trouvé:';
+$lang['vacban'] = 'VAC Banni';
+$lang['passreset'] = 'Réinitialiser le mot de passe';
+$lang['yourGang'] = 'Vôtre Gang';
+$lang['topRich'] = 'Top 10 des joueurs les plus riches';
+$lang['say'] = 'Dire';
+$lang['execute'] = 'Executer';
+$lang['life'] = 'Vie';
 $lang['waste'] = 'Wasteland';
-$lang['start'] = 'Start';
-$lang['stop'] = 'Stop';
-$lang['refresh'] = 'Refresh';
-$lang['more'] = 'More';
+$lang['start'] = 'Démarrer';
+$lang['stop'] = 'Arreter';
+$lang['refresh'] = 'Actualiser';
+$lang['more'] = 'Plus';
 $lang['options'] = 'Options';
-$lang['expired'] = 'Form Expired';
-$lang['newdb'] = 'Added New Database';
+$lang['expired'] = 'Formulaire expiré';
+$lang['newdb'] = 'Ajouter une nouvelle base de donnée';
 $lang['dropIn'] = "Drop In's";
-$lang['activeAlready'] = 'Plugin Already Active';
-$lang['notActive'] = 'Plugin Not Active';
-$lang['pluginActivated'] = 'Plugin Activated Successfully';
-$lang['added'] = 'Added';
-$lang['removed'] = 'Removed';
+$lang['activeAlready'] = 'Plugin déjà actif';
+$lang['notActive'] = 'Plugin désactiver';
+$lang['pluginActivated'] = 'Plugin activé avec succès';
+$lang['added'] = 'Ajouté';
+$lang['removed'] = 'Supprimé';
 
-$lang['2factor'] = 'Two Factor Authentication';
-$lang['2factorSetup1'] = 'Please scan the below barcode in the Google Authenticator App';
-$lang['2factorSetup2'] = 'Or use this key';
-$lang['2factorSetup3'] = 'Enter the code';
-$lang['2factor1'] = '2 Factor authentication is setup on your account';
-$lang['2factor2'] = '2 Factor setup failed';
-$lang['2factor3'] = 'Backup Key';
+$lang['2factor'] = 'Double authentification (Connexion sécurisé)';
+$lang['2factorSetup1'] = 'Scanner le code barre ci-dessous dans Google Authenticator';
+$lang['2factorSetup2'] = 'Ou utiliser cette clé';
+$lang['2factorSetup3'] = 'Entrer le code';
+$lang['2factor1'] = 'Votre compte est securiser avec une deuxième verification';
+$lang['2factor2'] = 'La configuration a échoué';
+$lang['2factor3'] = 'Clé de secours';
 
-$lang['2factor4'] = 'Stop 2 Factor';
-$lang['2factorRemember'] = 'This computer has been remembered';
-$lang['2factorRememberDevice'] = 'Remember This Computer';
-$lang['2factorRevoke'] = 'Your keys have been revoked';
-$lang['2factorDeviceRevoke'] = 'Your device has been forgotten';
-$lang['2factorTokenRevoke'] = 'All devices have been forgotten';
-$lang['2factorBackupRevoke'] = 'Your backup key has been removed';
-$lang['2factorRevoke'] = 'Your keys have been revoked';
-$lang['2factorForceRevoke'] = '2 Factor has been turned off for your account by an Admin';
-$lang['2factorBackup1'] = 'Your backup code is:';
-$lang['2factorBackup2'] = 'please write it down on a safe place';
-$lang['2factorError1'] = 'Your backup code is incorrect';
-$lang['2factorError2'] = 'Your code is incorrect';
-$lang['2factorForce'] = 'Your panel admin has forced Two factor login for all users';
-$lang['sudoExpired'] = 'Your login has expired, please try again';
-$lang['sudo'] = 'You are entering sudo mode, you will not need to login again for 3 hours';
-$lang['whitelist'] = 'Add IP\'s which you want to connect from. Example: 127.0.0.1, 127.0.0 and 127 will all allow 127.0.0.1 to connect';
-$lang['sudoMode'] = 'Sudo Mode';
-$lang['use2factor'] = 'Use Two Factor';
-$lang['force2factor'] = 'Force Two Factor';
-$lang['useGravatar'] = 'Use Gravatar';
+$lang['2factor4'] = 'Supprimer la double authentification';
+$lang['2factorRemember'] = 'Cette machine est enregistrée';
+$lang['2factorRememberDevice'] = 'Enregistrer cette machine';
+$lang['2factorRevoke'] = 'Vôtre clé a été supprimer';
+$lang['2factorDeviceRevoke'] = 'Vôtre equipement a été oublié';
+$lang['2factorTokenRevoke'] = 'Tout les équipements ont été oubliés';
+$lang['2factorBackupRevoke'] = 'Vôtre clé de secours a été oublié';
+$lang['2factorRevoke'] = 'Toute vos clés ont été oubliées';
+$lang['2factorForceRevoke'] = 'Vôtre double authenfication a été désactiver par un administrateur';
+$lang['2factorBackup1'] = 'Vôtre code de secours est:';
+$lang['2factorBackup2'] = 'Conserver le précieusement !';
+$lang['2factorError1'] = 'Vôtre code de secours est incorrecte';
+$lang['2factorError2'] = 'Vôtre code est incorrecte';
+$lang['2factorForce'] = 'Vôtre panel admin force la double authentification pour tout les utilisateurs';
+$lang['sudoExpired'] = 'Vôtre connexion a expirée, reconnectez-vous S.V.P';
+$lang['sudo'] = 'Vôtre connexion au panel est enregistrée pendant 3 heures';
+$lang['whitelist'] = 'Ajouter IP\'s avec la quel vous souhaiter vous connectez. Exemple: 127.0.0.1, 127.0.0 et 127 vous autorisez 127.0.0.1 a se connecter';
+$lang['sudoMode'] = 'Enregistrer la connexion temporairement (3 heures)';
+$lang['use2factor'] = 'Utiliser double authentification';
+$lang['force2factor'] = 'Forcer utilisation de la double authentification';
+$lang['useGravatar'] = 'Utiliser Gravatar';
 $lang['none'] = 'Not forced';
 $lang['steam'] = 'All users except Steam Sign On';
-$lang['all'] = 'All users';
+$lang['all'] = 'Tout les utilisateurs';
 
-$lang['gravatarProfile'] = 'Using Gravatar Image';
-$lang['steamProfile'] = 'Using Steam Image';
-$lang['themeProfile'] = 'Using Theme Image';
-$lang['passChanged'] = 'Your password has been reset';
+$lang['gravatarProfile'] = 'Utilisé image Gravatar ';
+$lang['steamProfile'] = 'Utilisé image Steam';
+$lang['themeProfile'] = 'Utilisé image par défaut ';
+$lang['passChanged'] = 'Vôtre mot de passe a été réinitialiser';
